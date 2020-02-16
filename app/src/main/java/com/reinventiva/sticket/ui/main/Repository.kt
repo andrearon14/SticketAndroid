@@ -13,4 +13,5 @@ class Repository {
     //simplified version of the retrofit call that comes from support with coroutines
     //Note that this does NOT handle errors, to be added
     suspend fun getData() = client.getData()
+
 }
