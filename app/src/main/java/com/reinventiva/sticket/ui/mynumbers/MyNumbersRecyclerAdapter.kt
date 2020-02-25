@@ -20,13 +20,15 @@ class MyNumbersRecyclerAdapter(private val context: Context, private val list: L
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = list.get(position)
         if (holder is MyViewHolder) {
-            holder.textViewSectionNumber.text = "${data.sectionName}   ${data.ticketNumber}"
-            holder.textViewSuper.text = data.superName
+            holder.textViewSection.text = data.SectionName
+            holder.textViewTicket.text = data.TicketNumber
+            holder.textViewCurrent.text = data.CurrentNumber
         }
     }
 
     private class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val textViewSectionNumber: TextView = itemView.findViewById(R.id.textViewSectionNumber)
-        val textViewSuper: TextView = itemView.findViewById(R.id.textViewSuper)
+        val textViewSection: TextView = itemView.findViewById(R.id.textViewSection)
+        val textViewTicket: TextView = itemView.findViewById(R.id.textViewTicket)
+        val textViewCurrent: TextView = itemView.findViewById(R.id.textViewCurrent)
     }
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.reinventiva.sticket.ui.newticketsuper.NewTicketSuperActivity
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
@@ -19,8 +20,6 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.main_fragment, container, false)
@@ -28,14 +27,9 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
-        viewModel.first.observe(viewLifecycleOwner, Observer {
-            //message.text = it.s
-        })
 
         buttonNewTicket.setOnClickListener {
-            val intent = Intent(context, NewTicketSuperActivity::class.java)
+            val intent = Intent(context, NewTicketNumberActivity::class.java)
             startActivity(intent)
         }
 

@@ -16,7 +16,7 @@
             android:name=".ui.newticketsuper.NewTicketSuperActivity"
             android:label="@string/title_activity_new_ticket_super"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

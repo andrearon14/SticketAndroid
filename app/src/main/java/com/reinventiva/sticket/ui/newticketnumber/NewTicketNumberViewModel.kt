@@ -1,14 +1,24 @@
 package com.reinventiva.sticket.ui.newticketnumber
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.reinventiva.sticket.data.Repository
+import kotlinx.coroutines.launch
 
 class NewTicketNumberViewModel : ViewModel() {
-    val list = MutableLiveData<List<NewTicketNumberData>>(
-        arrayListOf(
-            NewTicketNumberData("Carniceria", "A - 10", 5),
-            NewTicketNumberData("Panaderia", "C - 7", 8),
-            NewTicketNumberData("Rotiseria", "B - 2", 2)
-        )
-    )
+    val list = MutableLiveData<List<NewTicketNumberData>>()
+
+    init {
+        viewModelScope.launch {
+            refreshList()
+        }
+    }
+
+    private suspend fun refreshList() {
+        list.value = Repository.R.getAvailableNumbers()
+    }
+
+    fun getTickets(sections: List<String>) = viewModelScope.launch {
+        Repository.R.getTickets(sections)
+        refreshList()
+    }
 }

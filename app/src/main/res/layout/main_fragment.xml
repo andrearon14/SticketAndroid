@@ -7,28 +7,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="100dp"
     tools:context=".ui.main.MainFragment">
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 
     <Button
         android:id="@+id/buttonNewTicket"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Ticket Nuevo"
+        android:background="@drawable/button"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center_horizontal" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/buttonMyNumbers"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Mis Números"
+        android:background="@drawable/button"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center_horizontal" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:id="@+id/buttonMyProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Mi Perfil"
+        android:background="@drawable/button"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center_horizontal" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="2" />
 
 </LinearLayout>
