@@ -1,5 +1,6 @@
 package com.reinventiva.sticket.ui.mynumbers
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.android.synthetic.main.my_numbers_fragment.*
+
+private const val NEW_TICKET_REQUEST_CODE = 111
 
 class MyNumbersFragment : Fragment() {
 
@@ -30,7 +34,33 @@ class MyNumbersFragment : Fragment() {
 
         viewModel.list.observe(viewLifecycleOwner, Observer {
             recyclerView.adapter = MyNumbersRecyclerAdapter(context!!, it)
+            swipeRefresh.isRefreshing = false
         })
+
+        buttonAdd.setOnClickListener {
+            val intent = Intent(context, NewTicketNumberActivity::class.java)
+            startActivityForResult(intent, NEW_TICKET_REQUEST_CODE)
+        }
+
+        buttonRemove.setOnClickListener {
+            val adapter = recyclerView.adapter
+            if (adapter is MyNumbersRecyclerAdapter) {
+                val sections = adapter.list
+                    .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
+                    .map { d -> d.SectionName }
+                viewModel.releaseTickets(sections)
+            }
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            viewModel.refresh()
+        }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == NEW_TICKET_REQUEST_CODE) {
+            viewModel.refresh()
+        }
+    }
 }

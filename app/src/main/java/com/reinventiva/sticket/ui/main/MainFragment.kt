@@ -38,5 +38,4 @@ class MainFragment : Fragment() {
             startActivity(intent)
         }
     }
-
 }

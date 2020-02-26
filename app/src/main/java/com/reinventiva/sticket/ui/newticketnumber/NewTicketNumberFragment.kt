@@ -40,8 +40,8 @@ class NewTicketNumberFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel.list.observe(viewLifecycleOwner, Observer {
-            val adapter = NewTicketNumberRecyclerAdapter(context!!, it)
-            recyclerView.adapter = adapter
+            recyclerView.adapter = NewTicketNumberRecyclerAdapter(context!!, it)
+            swipeRefresh.isRefreshing = false
         })
 
         button.setOnClickListener {
@@ -50,10 +50,12 @@ class NewTicketNumberFragment : Fragment() {
                 val sections = adapter.list
                     .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
                     .map { d -> d.Section }
-                viewModel.viewModelScope.launch {
-                    viewModel.getTickets(sections)
-                }
+                viewModel.getTickets(sections)
             }
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            viewModel.refresh()
         }
     }
 }

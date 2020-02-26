@@ -18,4 +18,13 @@ class MyNumbersViewModel : ViewModel() {
     private suspend fun refreshList() {
         list.value = Repository.R.getMyNumbers()
     }
+
+    fun refresh() = viewModelScope.launch {
+        refreshList()
+    }
+
+    fun releaseTickets(sections: List<String>) = viewModelScope.launch {
+        Repository.R.releaseTickets(sections)
+        refreshList()
+    }
 }

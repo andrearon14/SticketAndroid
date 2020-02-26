@@ -13,6 +13,12 @@ interface Webservice {
     @POST("${REST}GetMyNumbers")
     suspend fun getMyNumbers(@Body data: DataDeviceIn): DataMyNumbersOut
 
+    @POST("${REST}ReleaseTickets")
+    suspend fun releaseTickets(@Body data: DataTicketsIn)
+
+    @POST("${REST}NotificationsRegistrationHandler")
+    suspend fun registerDevice(@Body data: DataDeviceRegistrationIn)
+
     companion object {
         private const val REST = "/Id169255290677041e3d4e2c55f705da5b/rest/"
     }

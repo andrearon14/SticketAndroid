@@ -17,6 +17,10 @@ class NewTicketNumberViewModel : ViewModel() {
         list.value = Repository.R.getAvailableNumbers()
     }
 
+    fun refresh() = viewModelScope.launch {
+        refreshList()
+    }
+
     fun getTickets(sections: List<String>) = viewModelScope.launch {
         Repository.R.getTickets(sections)
         refreshList()

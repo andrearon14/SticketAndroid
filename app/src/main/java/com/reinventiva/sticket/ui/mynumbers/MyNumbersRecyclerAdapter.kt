@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.R
 
-class MyNumbersRecyclerAdapter(private val context: Context, private val list: List<MyNumbersData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MyNumbersRecyclerAdapter(private val context: Context, val list: List<MyNumbersData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var selectedPositions = ArrayList<Int>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val rootView = LayoutInflater.from(context).inflate(R.layout.my_numbers_item, parent, false)
@@ -24,11 +26,22 @@ class MyNumbersRecyclerAdapter(private val context: Context, private val list: L
             holder.textViewTicket.text = data.TicketNumber
             holder.textViewCurrent.text = data.CurrentNumber
         }
+        holder.itemView.isSelected = selectedPositions.contains(position)
     }
 
-    private class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    private inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val textViewSection: TextView = itemView.findViewById(R.id.textViewSection)
         val textViewTicket: TextView = itemView.findViewById(R.id.textViewTicket)
         val textViewCurrent: TextView = itemView.findViewById(R.id.textViewCurrent)
+
+        init {
+            itemView.setOnClickListener {
+                if (selectedPositions.contains(layoutPosition))
+                    selectedPositions.remove(layoutPosition)
+                else
+                    selectedPositions.add(layoutPosition)
+                notifyItemChanged(layoutPosition)
+            }
+        }
     }
 }

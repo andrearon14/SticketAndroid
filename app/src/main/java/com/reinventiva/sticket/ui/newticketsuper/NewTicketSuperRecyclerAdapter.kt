@@ -16,7 +16,7 @@ class NewTicketSuperRecyclerAdapter(private val context: Context, private val li
         val rootView = LayoutInflater.from(context).inflate(R.layout.new_ticket_super_list_tab_item, parent, false)
         return MyViewHolder(
             rootView
-        ).listen { pos, type ->
+        ).listen { _, _ ->
             val intent = Intent(context, NewTicketNumberActivity::class.java)
             context.startActivity(intent)
         }

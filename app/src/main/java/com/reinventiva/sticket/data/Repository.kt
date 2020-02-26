@@ -40,6 +40,8 @@ class Repository(context: Context) {
     suspend fun getAvailableNumbers() = client.getAvailableNumbers(DataDeviceIn(androidId)).AvailableList
     suspend fun getTickets(sections: List<String>) = client.getTickets(DataTicketsIn(androidId, sections))
     suspend fun getMyNumbers() = client.getMyNumbers(DataDeviceIn(androidId)).List
+    suspend fun releaseTickets(sections: List<String>) = client.releaseTickets(DataTicketsIn(androidId, sections))
+    suspend fun registerDevice(deviceToken: String) = client.registerDevice(DataDeviceRegistrationIn(androidId, deviceToken))
 
     companion object {
         lateinit var R: Repository
