@@ -3,6 +3,7 @@ package com.reinventiva.sticket.ui.newticketnumber
 import android.os.Bundle
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.ui.base.MyBaseActivity
+import org.json.JSONObject
 
 class NewTicketNumberActivity: MyBaseActivity() {
 
@@ -17,4 +18,7 @@ class NewTicketNumberActivity: MyBaseActivity() {
         }
     }
 
+    private val fragment get() = supportFragmentManager.fragments[0] as NewTicketNumberFragment
+
+    override fun updateNotification(values: JSONObject) = fragment.refreshValues(values)
 }

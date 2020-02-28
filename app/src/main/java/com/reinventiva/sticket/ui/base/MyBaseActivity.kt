@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.reinventiva.sticket.MyApplication
 import com.reinventiva.sticket.R
+import org.json.JSONObject
 
 open class MyBaseActivity : AppCompatActivity() {
     protected lateinit var myApp: MyApplication
@@ -35,6 +36,8 @@ open class MyBaseActivity : AppCompatActivity() {
         if (this == currActivity)
             myApp.currentActivity = null
     }
+
+    open fun updateNotification(values: JSONObject) { }
 
     lateinit var coordinatorLayout: CoordinatorLayout
 }

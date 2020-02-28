@@ -1,7 +1,7 @@
 package com.reinventiva.sticket.ui.mynumbers
 
 data class MyNumbersData(
-    val SectionName: String,
+    val Section: String,
     val TicketNumber: String,
-    val CurrentNumber: String
+    var CurrentNumber: String
 )

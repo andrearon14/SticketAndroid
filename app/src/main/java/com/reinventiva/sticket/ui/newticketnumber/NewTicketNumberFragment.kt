@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
 import kotlinx.android.synthetic.main.new_ticket_number_fragment.*
+import org.json.JSONObject
 
 class NewTicketNumberFragment: Fragment() {
 
@@ -49,4 +50,6 @@ class NewTicketNumberFragment: Fragment() {
             viewModel.refresh()
         }
     }
+
+    fun refreshValues(values: JSONObject) = viewModel.refreshOne(values)
 }

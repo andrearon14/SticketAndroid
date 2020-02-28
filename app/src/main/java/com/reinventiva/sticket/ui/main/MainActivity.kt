@@ -12,6 +12,7 @@ import com.reinventiva.sticket.ui.base.MyBaseActivity
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class MainActivity: MyBaseActivity() {
 
@@ -30,18 +31,25 @@ class MainActivity: MyBaseActivity() {
         OneSignal.startInit(this)
             .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
             .setNotificationReceivedHandler { notification ->
-                // Notificación recibida, mostrar mensaje
                 val activity = myApp.currentActivity
                 if (activity is MyBaseActivity) {
-                    val snackbar = Snackbar.make(
-                        activity.coordinatorLayout,
-                        notification.payload.title!! + "\n" + notification.payload.body,
-                        Snackbar.LENGTH_INDEFINITE
-                    )
-                    val params = snackbar.view.layoutParams as CoordinatorLayout.LayoutParams
-                    params.gravity = Gravity.TOP
-                    snackbar.view.layoutParams = params
-                    snackbar.show()
+                    if (notification.payload.title != null) {
+                        // Notificación recibida, mostrar mensaje
+                        val snackbar = Snackbar.make(
+                            activity.coordinatorLayout,
+                            notification.payload.title + "\n" + notification.payload.body,
+                            Snackbar.LENGTH_INDEFINITE
+                        )
+                        val params = snackbar.view.layoutParams as CoordinatorLayout.LayoutParams
+                        params.gravity = Gravity.TOP
+                        snackbar.view.layoutParams = params
+                        snackbar.show()
+                    } else if (notification.payload.additionalData != null) {
+                        // Notificación silenciosa recibida, actualizar pantallas
+                        val jsonObject = notification.payload.additionalData
+                        val values = (jsonObject["da"] as JSONObject)["p"] as JSONObject
+                        activity.updateNotification(values)
+                    }
                 }
             }
             .setNotificationOpenedHandler { result ->

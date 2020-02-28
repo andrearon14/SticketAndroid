@@ -3,6 +3,7 @@ package com.reinventiva.sticket.ui.mynumbers
 import android.os.Bundle
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.ui.base.MyBaseActivity
+import org.json.JSONObject
 
 class MyNumbersActivity: MyBaseActivity() {
 
@@ -17,5 +18,9 @@ class MyNumbersActivity: MyBaseActivity() {
         }
     }
 
-    fun refreshList() = (supportFragmentManager.fragments[0] as MyNumbersFragment).refreshList()
+    private val fragment get() = supportFragmentManager.fragments[0] as MyNumbersFragment
+
+    fun refreshList() = fragment.refreshList()
+
+    override fun updateNotification(values: JSONObject) = fragment.refreshValues(values)
 }

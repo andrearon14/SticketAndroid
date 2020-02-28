@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.android.synthetic.main.my_numbers_fragment.*
+import org.json.JSONObject
 
 private const val NEW_TICKET_REQUEST_CODE = 111
 
@@ -47,7 +48,7 @@ class MyNumbersFragment: Fragment() {
             if (adapter is MyNumbersRecyclerAdapter) {
                 val sections = adapter.list
                     .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
-                    .map { d -> d.SectionName }
+                    .map { d -> d.Section }
                 viewModel.releaseTickets(sections)
             }
         }
@@ -65,4 +66,5 @@ class MyNumbersFragment: Fragment() {
     }
 
     fun refreshList() = viewModel.refresh()
+    fun refreshValues(values: JSONObject) = viewModel.refreshOne(values)
 }

@@ -22,7 +22,7 @@ class MyNumbersRecyclerAdapter(private val context: Context, val list: List<MyNu
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = list.get(position)
         if (holder is MyViewHolder) {
-            holder.textViewSection.text = data.SectionName
+            holder.textViewSection.text = data.Section
             holder.textViewTicket.text = data.TicketNumber
             holder.textViewCurrent.text = data.CurrentNumber
         }
