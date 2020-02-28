@@ -30,29 +30,29 @@ class MainActivity: MyBaseActivity() {
         // Iniciar OneSignal
         OneSignal.startInit(this)
             .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
-            .setNotificationReceivedHandler { notification ->
+            .setNotificationReceivedHandler {
                 val activity = myApp.currentActivity
                 if (activity is MyBaseActivity) {
-                    if (notification.payload.title != null) {
+                    if (it.payload.title != null) {
                         // Notificación recibida, mostrar mensaje
                         val snackbar = Snackbar.make(
                             activity.coordinatorLayout,
-                            notification.payload.title + "\n" + notification.payload.body,
+                            it.payload.title + "\n" + it.payload.body,
                             Snackbar.LENGTH_INDEFINITE
                         )
                         val params = snackbar.view.layoutParams as CoordinatorLayout.LayoutParams
                         params.gravity = Gravity.TOP
                         snackbar.view.layoutParams = params
                         snackbar.show()
-                    } else if (notification.payload.additionalData != null) {
+                    } else if (it.payload.additionalData != null) {
                         // Notificación silenciosa recibida, actualizar pantallas
-                        val jsonObject = notification.payload.additionalData
+                        val jsonObject = it.payload.additionalData
                         val values = (jsonObject["da"] as JSONObject)["p"] as JSONObject
                         activity.updateNotification(values)
                     }
                 }
             }
-            .setNotificationOpenedHandler { result ->
+            .setNotificationOpenedHandler {
                 // Notificación abierta, ir al panel Mis Números
                 val activity = myApp.currentActivity
                 if (activity is MyNumbersActivity) {

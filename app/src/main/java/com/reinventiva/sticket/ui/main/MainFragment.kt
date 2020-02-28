@@ -25,14 +25,18 @@ class MainFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        buttonNewTicket.setOnClickListener {
+        val newTicket = View.OnClickListener {
             val intent = Intent(context, NewTicketNumberActivity::class.java)
             startActivity(intent)
         }
+        imageNewTicket.setOnClickListener(newTicket)
+        buttonNewTicket.setOnClickListener(newTicket)
 
-        buttonMyNumbers.setOnClickListener {
+        val myNumbers = View.OnClickListener {
             val intent = Intent(context, MyNumbersActivity::class.java)
             startActivity(intent)
         }
+        imageMyNumbers.setOnClickListener(myNumbers)
+        buttonMyNumbers.setOnClickListener(myNumbers)
     }
 }

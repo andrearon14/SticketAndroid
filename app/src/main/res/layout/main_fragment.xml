@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -11,7 +12,14 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="2" />
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/imageNewTicket"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/icono_ticket_nuevo" />
 
     <Button
         android:id="@+id/buttonNewTicket"
@@ -25,7 +33,13 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight=".6" />
+
+    <ImageView
+        android:id="@+id/imageMyNumbers"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/icono_mis_numeros" />
 
     <Button
         android:id="@+id/buttonMyNumbers"
@@ -41,6 +55,13 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <ImageView
+        android:id="@+id/imageMyProfile"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/icono_mi_perfil" />
+
     <Button
         android:id="@+id/buttonMyProfile"
         android:layout_width="200dp"
@@ -53,6 +74,6 @@
     <Space
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="2" />
+        android:layout_weight="1" />
 
 </LinearLayout>
