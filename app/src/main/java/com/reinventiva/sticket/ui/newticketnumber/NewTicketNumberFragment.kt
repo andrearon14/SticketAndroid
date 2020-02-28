@@ -31,6 +31,7 @@ class NewTicketNumberFragment: Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        swipeRefresh.isRefreshing = true
         viewModel.list.observe(viewLifecycleOwner, Observer {
             recyclerView.adapter = NewTicketNumberRecyclerAdapter(context!!, it)
             swipeRefresh.isRefreshing = false

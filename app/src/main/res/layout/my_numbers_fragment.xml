@@ -46,6 +46,17 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/noNumbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="@color/text_color"
+        android:text="No posee ningún número"
+        android:visibility="gone" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"

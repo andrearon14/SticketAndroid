@@ -33,7 +33,9 @@ class MyNumbersFragment: Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        swipeRefresh.isRefreshing = true
         viewModel.list.observe(viewLifecycleOwner, Observer {
+            noNumbers.visibility = if (it.size == 0) View.VISIBLE else View.GONE
             recyclerView.adapter = MyNumbersRecyclerAdapter(context!!, it)
             swipeRefresh.isRefreshing = false
         })
