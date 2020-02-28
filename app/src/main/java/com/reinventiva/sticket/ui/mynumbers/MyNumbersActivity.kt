@@ -2,8 +2,7 @@ package com.reinventiva.sticket.ui.mynumbers
 
 import android.os.Bundle
 import com.reinventiva.sticket.R
-import com.reinventiva.sticket.ui.MyBaseActivity
-import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberFragment
+import com.reinventiva.sticket.ui.base.MyBaseActivity
 
 class MyNumbersActivity: MyBaseActivity() {
 
@@ -18,9 +17,5 @@ class MyNumbersActivity: MyBaseActivity() {
         }
     }
 
-    fun refreshList() {
-        val fragment = supportFragmentManager.fragments[0]
-        if (fragment is MyNumbersFragment)
-            fragment.refreshList()
-    }
+    fun refreshList() = (supportFragmentManager.fragments[0] as MyNumbersFragment).refreshList()
 }

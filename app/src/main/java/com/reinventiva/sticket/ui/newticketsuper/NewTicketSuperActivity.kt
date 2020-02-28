@@ -2,7 +2,7 @@ package com.reinventiva.sticket.ui.newticketsuper
 
 import android.os.Bundle
 import com.reinventiva.sticket.R
-import com.reinventiva.sticket.ui.MyBaseActivity
+import com.reinventiva.sticket.ui.base.MyBaseActivity
 import kotlinx.android.synthetic.main.new_ticket_super_activity.*
 
 class NewTicketSuperActivity : MyBaseActivity() {

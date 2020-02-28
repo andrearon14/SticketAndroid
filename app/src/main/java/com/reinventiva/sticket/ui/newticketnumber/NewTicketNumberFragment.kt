@@ -2,26 +2,17 @@ package com.reinventiva.sticket.ui.newticketnumber
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.provider.Settings.Secure
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveDataScope
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.R
-import com.reinventiva.sticket.data.Repository
 import kotlinx.android.synthetic.main.new_ticket_number_fragment.*
-import kotlinx.android.synthetic.main.new_ticket_super_list_tab_fragment.recyclerView
-import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
 
-class NewTicketNumberFragment : Fragment() {
+class NewTicketNumberFragment: Fragment() {
 
     private lateinit var viewModel: NewTicketNumberViewModel
 

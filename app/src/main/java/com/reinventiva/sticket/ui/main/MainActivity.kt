@@ -2,14 +2,14 @@ package com.reinventiva.sticket.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.view.Gravity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import com.onesignal.OneSignal
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.data.Repository
-import com.reinventiva.sticket.ui.MyBaseActivity
+import com.reinventiva.sticket.ui.base.MyBaseActivity
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
-import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -26,13 +26,26 @@ class MainActivity: MyBaseActivity() {
                 .commitNow()
         }
 
-        // OneSignal Initialization
+        // Iniciar OneSignal
         OneSignal.startInit(this)
             .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
             .setNotificationReceivedHandler { notification ->
-                Snackbar.make(window.decorView.rootView, "REC " + notification.payload.title!!, Snackbar.LENGTH_LONG).show()
+                // Notificación recibida, mostrar mensaje
+                val activity = myApp.currentActivity
+                if (activity is MyBaseActivity) {
+                    val snackbar = Snackbar.make(
+                        activity.coordinatorLayout,
+                        notification.payload.title!! + "\n" + notification.payload.body,
+                        Snackbar.LENGTH_INDEFINITE
+                    )
+                    val params = snackbar.view.layoutParams as CoordinatorLayout.LayoutParams
+                    params.gravity = Gravity.TOP
+                    snackbar.view.layoutParams = params
+                    snackbar.show()
+                }
             }
             .setNotificationOpenedHandler { result ->
+                // Notificación abierta, ir al panel Mis Números
                 val activity = myApp.currentActivity
                 if (activity is MyNumbersActivity) {
                     activity.refreshList()

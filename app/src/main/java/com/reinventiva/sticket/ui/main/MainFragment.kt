@@ -6,15 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.reinventiva.sticket.ui.newticketsuper.NewTicketSuperActivity
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.android.synthetic.main.main_fragment.*
 
-class MainFragment : Fragment() {
+class MainFragment: Fragment() {
 
     companion object {
         fun newInstance() = MainFragment()

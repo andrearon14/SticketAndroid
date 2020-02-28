@@ -2,7 +2,7 @@ package com.reinventiva.sticket.ui.newticketnumber
 
 import android.os.Bundle
 import com.reinventiva.sticket.R
-import com.reinventiva.sticket.ui.MyBaseActivity
+import com.reinventiva.sticket.ui.base.MyBaseActivity
 
 class NewTicketNumberActivity: MyBaseActivity() {
 
