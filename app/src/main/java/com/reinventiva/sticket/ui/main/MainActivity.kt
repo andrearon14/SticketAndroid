@@ -1,14 +1,19 @@
 package com.reinventiva.sticket.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import com.google.android.material.snackbar.Snackbar
 import com.onesignal.OneSignal
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.data.Repository
+import com.reinventiva.sticket.ui.MyBaseActivity
+import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity: MyBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +29,18 @@ class MainActivity : AppCompatActivity() {
         // OneSignal Initialization
         OneSignal.startInit(this)
             .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+            .setNotificationReceivedHandler { notification ->
+                Snackbar.make(window.decorView.rootView, "REC " + notification.payload.title!!, Snackbar.LENGTH_LONG).show()
+            }
+            .setNotificationOpenedHandler { result ->
+                val activity = myApp.currentActivity
+                if (activity is MyNumbersActivity) {
+                    activity.refreshList()
+                } else {
+                    val intent = Intent(this@MainActivity, MyNumbersActivity::class.java)
+                    startActivity(intent)
+                }
+            }
             .unsubscribeWhenNotificationsAreDisabled(true)
             .init()
 

@@ -1,10 +1,10 @@
 package com.reinventiva.sticket.ui.newticketnumber
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.ui.MyBaseActivity
 
-class NewTicketNumberActivity : AppCompatActivity() {
+class NewTicketNumberActivity: MyBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

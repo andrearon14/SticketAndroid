@@ -1,11 +1,11 @@
 package com.reinventiva.sticket.ui.newticketsuper
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.ui.MyBaseActivity
 import kotlinx.android.synthetic.main.new_ticket_super_activity.*
 
-class NewTicketSuperActivity : AppCompatActivity() {
+class NewTicketSuperActivity : MyBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -63,4 +63,8 @@ class MyNumbersFragment : Fragment() {
             viewModel.refresh()
         }
     }
+
+    fun refreshList() {
+        viewModel.refresh()
+    }
 }
