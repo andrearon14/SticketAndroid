@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.ui.myinformation.MyInformationActivity
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.android.synthetic.main.main_fragment.*
@@ -38,5 +39,12 @@ class MainFragment: Fragment() {
         }
         imageMyNumbers.setOnClickListener(myNumbers)
         buttonMyNumbers.setOnClickListener(myNumbers)
+
+        val myprofile = View.OnClickListener {
+            val intent = Intent(context, MyInformationActivity::class.java)
+            startActivity(intent)
+        }
+        imageMyProfile.setOnClickListener(myprofile)
+        buttonMyProfile.setOnClickListener(myprofile)
     }
 }

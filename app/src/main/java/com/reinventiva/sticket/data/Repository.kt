@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Handler
 import android.provider.Settings
 import android.widget.Toast
+import com.reinventiva.sticket.ui.myinformation.MyInformationData
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersData
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -42,6 +43,8 @@ class Repository(context: Context) {
     suspend fun getMyNumbers() = client.getMyNumbers(DataDeviceIn(androidId)).List
     suspend fun releaseTickets(sections: List<String>) = client.releaseTickets(DataTicketsIn(androidId, sections))
     suspend fun registerDevice(deviceToken: String) = client.registerDevice(DataDeviceRegistrationIn(androidId, deviceToken))
+    suspend fun getMyInformation() = client.getMyInformation(DataDeviceIn(androidId)).Data
+    suspend fun setMyInformation(data: MyInformationData) = client.setMyInformation(DataMyInformationIn(androidId, data))
 
     companion object {
         lateinit var R: Repository
