@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.model.NewTicketSuperData
 
 class NewTicketSuperRecyclerAdapter(private val context: Context, private val list: List<NewTicketSuperData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

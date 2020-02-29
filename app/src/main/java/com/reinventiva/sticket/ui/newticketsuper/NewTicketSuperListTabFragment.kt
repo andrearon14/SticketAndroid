@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.model.NewTicketSuperData
+import com.reinventiva.sticket.model.NewTicketSuperViewModel
 import kotlinx.android.synthetic.main.new_ticket_super_list_tab_fragment.*
 
 /**

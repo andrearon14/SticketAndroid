@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.model.MyInformationData
+import com.reinventiva.sticket.model.MyInformationViewModel
 import kotlinx.android.synthetic.main.my_information_fragment.*
 import kotlinx.coroutines.launch
 
@@ -39,7 +41,8 @@ class MyInformationFragment: Fragment() {
             val information = MyInformationData(
                 editTextName.text.toString(),
                 editTextLastName.text.toString(),
-                editTextEMail.text.toString())
+                editTextEMail.text.toString()
+            )
             swipeRefresh.isRefreshing = true
             viewModel.viewModelScope.launch {
                 viewModel.save(information)

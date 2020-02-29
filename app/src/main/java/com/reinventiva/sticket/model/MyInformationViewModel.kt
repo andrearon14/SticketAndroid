@@ -1,4 +1,4 @@
-package com.reinventiva.sticket.ui.myinformation
+package com.reinventiva.sticket.model
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

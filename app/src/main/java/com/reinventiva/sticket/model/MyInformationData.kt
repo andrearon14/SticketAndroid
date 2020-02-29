@@ -1,4 +1,4 @@
-package com.reinventiva.sticket.ui.myinformation
+package com.reinventiva.sticket.model
 
 data class MyInformationData(
     val Name: String,

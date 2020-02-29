@@ -4,14 +4,11 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface Webservice {
-    @POST("${REST}GetAvailableNumbers")
-    suspend fun getAvailableNumbers(@Body data: DataDeviceIn): DataAvailableNumbersOut
+    @POST("${REST}GetNumbers")
+    suspend fun getNumbers(@Body data: DataDeviceIn): DataNumbersOut
 
     @POST("${REST}GetTickets")
     suspend fun getTickets(@Body data: DataTicketsIn)
-
-    @POST("${REST}GetMyNumbers")
-    suspend fun getMyNumbers(@Body data: DataDeviceIn): DataMyNumbersOut
 
     @POST("${REST}ReleaseTickets")
     suspend fun releaseTickets(@Body data: DataTicketsIn)

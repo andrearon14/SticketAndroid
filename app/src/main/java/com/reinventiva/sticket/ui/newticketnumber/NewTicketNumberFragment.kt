@@ -10,12 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.model.TicketNumberViewModel
 import kotlinx.android.synthetic.main.new_ticket_number_fragment.*
 import org.json.JSONObject
 
 class NewTicketNumberFragment: Fragment() {
 
-    private lateinit var viewModel: NewTicketNumberViewModel
+    private lateinit var viewModel: TicketNumberViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +28,7 @@ class NewTicketNumberFragment: Fragment() {
     @SuppressLint("HardwareIds")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NewTicketNumberViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TicketNumberViewModel::class.java)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 

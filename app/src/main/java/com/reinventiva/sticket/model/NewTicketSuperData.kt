@@ -1,4 +1,4 @@
-package com.reinventiva.sticket.ui.newticketsuper
+package com.reinventiva.sticket.model
 
 data class NewTicketSuperData(
     val name: String,

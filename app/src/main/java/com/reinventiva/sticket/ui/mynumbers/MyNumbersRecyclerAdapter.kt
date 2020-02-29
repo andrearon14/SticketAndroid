@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.Utils
+import com.reinventiva.sticket.model.TicketNumberData
 
-class MyNumbersRecyclerAdapter(private val context: Context, val list: List<MyNumbersData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MyNumbersRecyclerAdapter(private val context: Context, val list: List<TicketNumberData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var selectedPositions = ArrayList<Int>()
 
@@ -23,8 +25,8 @@ class MyNumbersRecyclerAdapter(private val context: Context, val list: List<MyNu
         val data = list.get(position)
         if (holder is MyViewHolder) {
             holder.textViewSection.text = data.Section
-            holder.textViewTicket.text = data.TicketNumber
-            holder.textViewCurrent.text = data.CurrentNumber
+            holder.textViewTicket.text = Utils.SerialNumber(data.TicketNumber)
+            holder.textViewCurrent.text = Utils.SerialNumber(data.CurrentNumber)
         }
         holder.itemView.isSelected = selectedPositions.contains(position)
     }

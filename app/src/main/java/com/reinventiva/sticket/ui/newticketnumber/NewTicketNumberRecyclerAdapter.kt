@@ -8,9 +8,10 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.model.TicketNumberData
 
 
-class NewTicketNumberRecyclerAdapter(private val context: Context, val list: List<NewTicketNumberData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NewTicketNumberRecyclerAdapter(private val context: Context, val list: List<TicketNumberData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var selectedPositions = ArrayList<Int>()
 
@@ -25,8 +26,8 @@ class NewTicketNumberRecyclerAdapter(private val context: Context, val list: Lis
         val data = list.get(position)
         if (holder is MyViewHolder) {
             holder.textViewSection.text = data.Section
-            holder.checkBoxHasNumber.isChecked = data.HasNumber
-            holder.textViewWaiting.text = data.Waiting.toString()
+            holder.checkBoxHasNumber.isChecked = data.HasTicket
+            holder.textViewWaiting.text = (data.LastNumber - data.CurrentNumber).toString()
         }
         holder.itemView.isSelected = selectedPositions.contains(position)
     }

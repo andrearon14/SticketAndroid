@@ -1,16 +1,14 @@
-package com.reinventiva.sticket.ui.mynumbers
+package com.reinventiva.sticket.model
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.reinventiva.sticket.data.Repository
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class MyNumbersViewModel : ViewModel() {
-    val list = MutableLiveData<List<MyNumbersData>>()
+class TicketNumberViewModel : ViewModel() {
+    val list = MutableLiveData<List<TicketNumberData>>()
 
     init {
         viewModelScope.launch {
@@ -19,10 +17,15 @@ class MyNumbersViewModel : ViewModel() {
     }
 
     private suspend fun refreshList() {
-        list.value = Repository.R.getMyNumbers()
+        list.value = Repository.R.getNumbers()
     }
 
     fun refresh() = viewModelScope.launch {
+        refreshList()
+    }
+
+    fun getTickets(sections: List<String>) = viewModelScope.launch {
+        Repository.R.getTickets(sections)
         refreshList()
     }
 
@@ -38,16 +41,14 @@ class MyNumbersViewModel : ViewModel() {
             for (item in it) {
                 if (item.Section.trimEnd() == section) {
                     if (isDelete) {
-                        val newList = it.toMutableList()
-                        newList.remove(item)
-                        Handler(Looper.getMainLooper()).post {
-                            list.value = newList
-                        }
+                        item.HasTicket = false
                     } else {
-                        item.CurrentNumber = values["CurrentNumber"] as String
-                        Handler(Looper.getMainLooper()).post {
-                            list.value = it
-                        }
+                        item.CurrentNumber = (values["CurrentNumber"] as String).toInt()
+                        item.LastNumber = (values["LastNumber"] as String).toInt()
+                    }
+                    Handler(Looper.getMainLooper()).post {
+                        if (list.value == it) // Si no fue actualizado por otro lado
+                            list.value = it // Disparar los Observers
                     }
                     break
                 }

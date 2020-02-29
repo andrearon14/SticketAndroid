@@ -5,8 +5,7 @@ import android.content.Context
 import android.os.Handler
 import android.provider.Settings
 import android.widget.Toast
-import com.reinventiva.sticket.ui.myinformation.MyInformationData
-import com.reinventiva.sticket.ui.mynumbers.MyNumbersData
+import com.reinventiva.sticket.model.MyInformationData
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -38,9 +37,8 @@ class Repository(context: Context) {
         .addConverterFactory(MoshiConverterFactory.create())
         .build().create(Webservice::class.java)
 
-    suspend fun getAvailableNumbers() = client.getAvailableNumbers(DataDeviceIn(androidId)).AvailableList
+    suspend fun getNumbers() = client.getNumbers(DataDeviceIn(androidId)).List
     suspend fun getTickets(sections: List<String>) = client.getTickets(DataTicketsIn(androidId, sections))
-    suspend fun getMyNumbers() = client.getMyNumbers(DataDeviceIn(androidId)).List
     suspend fun releaseTickets(sections: List<String>) = client.releaseTickets(DataTicketsIn(androidId, sections))
     suspend fun registerDevice(deviceToken: String) = client.registerDevice(DataDeviceRegistrationIn(androidId, deviceToken))
     suspend fun getMyInformation() = client.getMyInformation(DataDeviceIn(androidId)).Data

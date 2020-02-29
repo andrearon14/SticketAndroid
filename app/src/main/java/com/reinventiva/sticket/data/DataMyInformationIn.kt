@@ -1,6 +1,6 @@
 package com.reinventiva.sticket.data
 
-import com.reinventiva.sticket.ui.myinformation.MyInformationData
+import com.reinventiva.sticket.model.MyInformationData
 
 data class DataMyInformationIn(
     val DeviceId: String,
