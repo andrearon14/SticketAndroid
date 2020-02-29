@@ -45,6 +45,8 @@ class TicketNumberViewModel : ViewModel() {
                     } else {
                         item.CurrentNumber = (values["CurrentNumber"] as String).toInt()
                         item.LastNumber = (values["LastNumber"] as String).toInt()
+                        if (item.HasTicket && item.CurrentNumber > item.TicketNumber)
+                            item.HasTicket = false
                     }
                     Handler(Looper.getMainLooper()).post {
                         if (list.value == it) // Si no fue actualizado por otro lado
