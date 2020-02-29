@@ -37,7 +37,7 @@ open class MyBaseActivity : AppCompatActivity() {
             myApp.currentActivity = null
     }
 
-    open fun updateNotification(values: JSONObject) { }
+    open fun updateNotification(name: String, values: JSONObject) { }
 
     lateinit var coordinatorLayout: CoordinatorLayout
 }

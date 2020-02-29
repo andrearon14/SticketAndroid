@@ -25,7 +25,7 @@ class NewTicketNumberRecyclerAdapter(private val context: Context, val list: Lis
         val data = list.get(position)
         if (holder is MyViewHolder) {
             holder.textViewSection.text = data.Section
-            holder.textViewHasNumber.isChecked = data.HasNumber
+            holder.checkBoxHasNumber.isChecked = data.HasNumber
             holder.textViewWaiting.text = data.Waiting.toString()
         }
         holder.itemView.isSelected = selectedPositions.contains(position)
@@ -33,17 +33,23 @@ class NewTicketNumberRecyclerAdapter(private val context: Context, val list: Lis
 
     private inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val textViewSection: TextView = itemView.findViewById(R.id.textViewSection)
-        val textViewHasNumber: CheckBox = itemView.findViewById(R.id.textViewHasNumber)
+        val checkBoxHasNumber: CheckBox = itemView.findViewById(R.id.checkBoxHasNumber)
         val textViewWaiting: TextView = itemView.findViewById(R.id.textViewWaiting)
 
         init {
-            itemView.setOnClickListener {
+            val select = View.OnClickListener {
                 if (selectedPositions.contains(layoutPosition))
                     selectedPositions.remove(layoutPosition)
                 else
                     selectedPositions.add(layoutPosition)
                 notifyItemChanged(layoutPosition)
             }
+            checkBoxHasNumber.setOnClickListener {
+                checkBoxHasNumber.isChecked = !checkBoxHasNumber.isChecked  // Deshago el cambio
+                checkBoxHasNumber.jumpDrawablesToCurrentState()
+                select.onClick(it)
+            }
+            itemView.setOnClickListener(select)
         }
     }
 }

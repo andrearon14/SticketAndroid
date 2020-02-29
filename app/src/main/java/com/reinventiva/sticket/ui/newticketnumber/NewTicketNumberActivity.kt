@@ -20,5 +20,5 @@ class NewTicketNumberActivity: MyBaseActivity() {
 
     private val fragment get() = supportFragmentManager.fragments[0] as NewTicketNumberFragment
 
-    override fun updateNotification(values: JSONObject) = fragment.refreshValues(values)
+    override fun updateNotification(name: String, values: JSONObject) = fragment.refreshValues(name, values)
 }

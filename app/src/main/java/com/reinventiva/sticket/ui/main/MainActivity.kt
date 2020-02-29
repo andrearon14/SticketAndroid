@@ -47,8 +47,10 @@ class MainActivity: MyBaseActivity() {
                     } else if (it.payload.additionalData != null) {
                         // Notificación silenciosa recibida, actualizar pantallas
                         val jsonObject = it.payload.additionalData
-                        val values = (jsonObject["da"] as JSONObject)["p"] as JSONObject
-                        activity.updateNotification(values)
+                        val daJsonObject = jsonObject["da"] as JSONObject
+                        val name = daJsonObject["e"] as String
+                        val values = daJsonObject["p"] as JSONObject
+                        activity.updateNotification(name, values)
                     }
                 }
             }

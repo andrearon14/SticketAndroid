@@ -29,13 +29,16 @@ class NewTicketNumberViewModel : ViewModel() {
         refreshList()
     }
 
-    fun refreshOne(values: JSONObject) {
+    fun refreshOne(name: String, values: JSONObject) {
         list.value?.let {
+            val isDelete = name == "Delete"
             val section = values["Section"] as String
-            val waiting = values["Waiting"] as String
             for (item in it) {
                 if (item.Section.trimEnd() == section) {
-                    item.Waiting = waiting.toInt()
+                    if (isDelete)
+                        item.HasNumber = false
+                    else
+                        item.Waiting = (values["Waiting"] as String).toInt()
                     Handler(Looper.getMainLooper()).post {
                         list.value = it
                     }

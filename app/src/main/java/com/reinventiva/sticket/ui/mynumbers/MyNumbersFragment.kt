@@ -51,6 +51,7 @@ class MyNumbersFragment: Fragment() {
                 val sections = adapter.list
                     .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
                     .map { d -> d.Section }
+                swipeRefresh.isRefreshing = true
                 viewModel.releaseTickets(sections)
             }
         }
@@ -68,5 +69,5 @@ class MyNumbersFragment: Fragment() {
     }
 
     fun refreshList() = viewModel.refresh()
-    fun refreshValues(values: JSONObject) = viewModel.refreshOne(values)
+    fun refreshValues(name: String, values: JSONObject) = viewModel.refreshOne(name, values)
 }

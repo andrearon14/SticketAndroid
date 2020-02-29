@@ -22,5 +22,5 @@ class MyNumbersActivity: MyBaseActivity() {
 
     fun refreshList() = fragment.refreshList()
 
-    override fun updateNotification(values: JSONObject) = fragment.refreshValues(values)
+    override fun updateNotification(name: String, values: JSONObject) = fragment.refreshValues(name, values)
 }

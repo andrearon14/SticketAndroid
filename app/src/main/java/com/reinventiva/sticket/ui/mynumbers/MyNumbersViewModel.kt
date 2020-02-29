@@ -31,15 +31,23 @@ class MyNumbersViewModel : ViewModel() {
         refreshList()
     }
 
-    fun refreshOne(values: JSONObject) {
+    fun refreshOne(name: String, values: JSONObject) {
         list.value?.let {
+            val isDelete = name == "Delete"
             val section = values["Section"] as String
-            val number = values["CurrentNumber"] as String
             for (item in it) {
                 if (item.Section.trimEnd() == section) {
-                    item.CurrentNumber = number
-                    Handler(Looper.getMainLooper()).post {
-                        list.value = it
+                    if (isDelete) {
+                        val newList = it.toMutableList()
+                        newList.remove(item)
+                        Handler(Looper.getMainLooper()).post {
+                            list.value = newList
+                        }
+                    } else {
+                        item.CurrentNumber = values["CurrentNumber"] as String
+                        Handler(Looper.getMainLooper()).post {
+                            list.value = it
+                        }
                     }
                     break
                 }

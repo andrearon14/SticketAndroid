@@ -11,22 +11,22 @@
         android:id="@+id/textViewSection"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="50dp"
         android:textSize="18sp"
         android:textColor="@color/text_color"
         android:text="Section" />
 
     <CheckBox
-        android:id="@+id/textViewHasNumber"
-        android:layout_width="70dp"
-        android:layout_marginLeft="50dp"
-        android:enabled="false"
+        android:id="@+id/checkBoxHasNumber"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/MyCheckbox" />
 
     <TextView
         android:id="@+id/textViewWaiting"
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
         android:textSize="18sp"
         android:gravity="end"
         android:textColor="@color/text_color"
