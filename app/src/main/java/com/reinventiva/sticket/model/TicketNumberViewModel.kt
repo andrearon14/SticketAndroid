@@ -24,8 +24,8 @@ class TicketNumberViewModel : ViewModel() {
         refreshList()
     }
 
-    fun getTickets(sections: List<String>) = viewModelScope.launch {
-        Repository.R.getTickets(sections)
+    fun takeTickets(sections: List<String>) = viewModelScope.launch {
+        Repository.R.takeTickets(sections)
         refreshList()
     }
 

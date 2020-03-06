@@ -7,8 +7,8 @@ interface Webservice {
     @POST("${REST}GetNumbers")
     suspend fun getNumbers(@Body data: DataDeviceIn): DataNumbersOut
 
-    @POST("${REST}GetTickets")
-    suspend fun getTickets(@Body data: DataTicketsIn)
+    @POST("${REST}TakeTickets")
+    suspend fun takeTickets(@Body data: DataTicketsIn)
 
     @POST("${REST}ReleaseTickets")
     suspend fun releaseTickets(@Body data: DataTicketsIn)

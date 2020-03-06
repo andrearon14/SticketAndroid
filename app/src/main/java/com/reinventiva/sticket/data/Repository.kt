@@ -38,7 +38,7 @@ class Repository(context: Context) {
         .build().create(Webservice::class.java)
 
     suspend fun getNumbers() = client.getNumbers(DataDeviceIn(androidId)).List
-    suspend fun getTickets(sections: List<String>) = client.getTickets(DataTicketsIn(androidId, sections))
+    suspend fun takeTickets(sections: List<String>) = client.takeTickets(DataTicketsIn(androidId, sections))
     suspend fun releaseTickets(sections: List<String>) = client.releaseTickets(DataTicketsIn(androidId, sections))
     suspend fun registerDevice(deviceToken: String) = client.registerDevice(DataDeviceRegistrationIn(androidId, deviceToken))
     suspend fun getMyInformation() = client.getMyInformation(DataDeviceIn(androidId)).Data

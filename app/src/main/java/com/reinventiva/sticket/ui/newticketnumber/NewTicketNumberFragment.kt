@@ -45,7 +45,7 @@ class NewTicketNumberFragment: Fragment() {
                     .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
                     .map { d -> d.Section }
                 swipeRefresh.isRefreshing = true
-                viewModel.getTickets(sections)
+                viewModel.takeTickets(sections)
             }
         }
 
