@@ -7,6 +7,9 @@ interface Webservice {
     @POST("${REST}GetNumbers")
     suspend fun getNumbers(@Body data: DataDeviceIn): DataNumbersOut
 
+    @POST("${REST}GetPlaces")
+    suspend fun getPlaces(@Body data: DataPlacesIn): DataPlacesOut
+
     @POST("${REST}TakeTickets")
     suspend fun takeTickets(@Body data: DataTicketsIn)
 

@@ -9,16 +9,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
-import com.reinventiva.sticket.model.NewTicketSuperData
-import com.reinventiva.sticket.model.NewTicketSuperViewModel
-import kotlinx.android.synthetic.main.new_ticket_super_list_tab_fragment.*
+import com.reinventiva.sticket.model.PlaceData
+import com.reinventiva.sticket.model.PlaceViewModel
+import kotlinx.android.synthetic.main.new_ticket_super_list_tab_fragment.recyclerView
+import kotlinx.android.synthetic.main.new_ticket_super_list_tab_fragment.swipeRefresh
 
 /**
  * A placeholder fragment containing a simple view.
  */
 class NewTicketSuperListTabFragment : Fragment() {
 
-    private lateinit var viewModel: NewTicketSuperViewModel
+    private lateinit var viewModel: PlaceViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,16 +30,18 @@ class NewTicketSuperListTabFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NewTicketSuperViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(PlaceViewModel::class.java)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer<List<NewTicketSuperData>> {
-            recyclerView.adapter =
-                NewTicketSuperRecyclerAdapter(
-                    context!!,
-                    it
-                )
+        swipeRefresh.isRefreshing = true
+        viewModel.list.observe(viewLifecycleOwner, Observer<List<PlaceData>> {
+            recyclerView.adapter = NewTicketSuperListRecyclerAdapter(context!!, it)
+            swipeRefresh.isRefreshing = false
         })
+
+        swipeRefresh.setOnRefreshListener {
+            viewModel.refresh()
+        }
     }
 }

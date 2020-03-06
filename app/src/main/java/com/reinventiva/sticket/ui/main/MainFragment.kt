@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.ui.myinformation.MyInformationActivity
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
-import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
+import com.reinventiva.sticket.ui.newticketsuper.NewTicketSuperActivity
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment: Fragment() {
@@ -27,7 +27,7 @@ class MainFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val newTicket = View.OnClickListener {
-            val intent = Intent(context, NewTicketNumberActivity::class.java)
+            val intent = Intent(context, NewTicketSuperActivity::class.java)
             startActivity(intent)
         }
         imageNewTicket.setOnClickListener(newTicket)

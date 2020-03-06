@@ -13,6 +13,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class Repository(context: Context) {
+
     @SuppressLint("HardwareIds")
     private val androidId: String = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
 
@@ -38,6 +39,7 @@ class Repository(context: Context) {
         .build().create(Webservice::class.java)
 
     suspend fun getNumbers() = client.getNumbers(DataDeviceIn(androidId)).List
+    suspend fun getPlaces(currentPosition: String) = client.getPlaces(DataPlacesIn(currentPosition)).List
     suspend fun takeTickets(sections: List<String>) = client.takeTickets(DataTicketsIn(androidId, sections))
     suspend fun releaseTickets(sections: List<String>) = client.releaseTickets(DataTicketsIn(androidId, sections))
     suspend fun registerDevice(deviceToken: String) = client.registerDevice(DataDeviceRegistrationIn(androidId, deviceToken))
