@@ -9,6 +9,7 @@ import com.reinventiva.sticket.data.Repository
 import kotlinx.coroutines.launch
 
 class PlaceViewModel : ViewModel() {
+    val currentLocation : Location? get() = lastLocation
     val list = MutableLiveData<List<PlaceData>>()
 
     init {

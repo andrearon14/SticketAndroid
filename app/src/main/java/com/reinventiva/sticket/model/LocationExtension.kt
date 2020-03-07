@@ -1,6 +1,7 @@
 package com.reinventiva.sticket.model
 
 import android.location.Location
+import com.google.android.gms.maps.model.LatLng
 import java.math.BigDecimal
 
 class LocationExtension {
@@ -32,3 +33,5 @@ fun Location.toGxPosition() : String {
         BigDecimal.valueOf(value).setScale(DECIMAL_PLACES, BigDecimal.ROUND_HALF_EVEN).toPlainString()
     return "POINT (${coordinateToString(longitude)} ${coordinateToString(latitude)})"
 }
+
+fun Location.toLatLng() = LatLng(latitude, longitude)
