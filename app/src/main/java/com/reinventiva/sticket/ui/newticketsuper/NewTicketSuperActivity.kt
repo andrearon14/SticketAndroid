@@ -16,11 +16,11 @@ import com.reinventiva.sticket.ui.newticketnumber.NEW_TICKET_RESULT_CODE_HAS_NUM
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.android.synthetic.main.new_ticket_super_activity.*
 
+private const val PERMISSION_ID = 1
 private const val NEW_TICKET_REQUEST_CODE = 111
 
 class NewTicketSuperActivity : MyBaseActivity() {
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var viewModel: PlaceViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,12 +31,9 @@ class NewTicketSuperActivity : MyBaseActivity() {
         viewModel = ViewModelProvider(this).get(PlaceViewModel::class.java)
 
         if (checkPermissions())
-            loadCurrentLocation()
+            load()
         else
             requestPermissions()
-
-        view_pager.adapter = NewTicketSuperPagerAdapter(this, supportFragmentManager, viewModel)
-        tabs.setupWithViewPager(view_pager)
     }
 
     private fun checkPermissions(): Boolean {
@@ -57,18 +54,23 @@ class NewTicketSuperActivity : MyBaseActivity() {
         if (requestCode == PERMISSION_ID) {
             if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Granted. Start getting the location information
-                loadCurrentLocation()
+                load()
+            } else {
+                finish()
             }
         }
     }
 
-    private fun loadCurrentLocation() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    private fun load() {
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location : Location? ->
                 if (location != null)
                     viewModel.updateLocation(location)
             }
+
+        view_pager.adapter = NewTicketSuperPagerAdapter(this, supportFragmentManager, viewModel)
+        tabs.setupWithViewPager(view_pager)
     }
 
     fun showNewTicketActivity(placeId: Int) {
@@ -79,12 +81,7 @@ class NewTicketSuperActivity : MyBaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == NEW_TICKET_REQUEST_CODE && resultCode == NEW_TICKET_RESULT_CODE_HAS_NUMBERS) {
+        if (requestCode == NEW_TICKET_REQUEST_CODE && resultCode == NEW_TICKET_RESULT_CODE_HAS_NUMBERS)
             finish()
-        }
-    }
-
-    companion object {
-        private const val PERMISSION_ID = 1
     }
 }

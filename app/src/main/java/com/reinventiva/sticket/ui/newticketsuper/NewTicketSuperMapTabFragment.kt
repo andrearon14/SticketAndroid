@@ -80,6 +80,6 @@ class NewTicketSuperMapTabFragment(private val viewModel: PlaceViewModel) : Frag
     }
 
     companion object {
-        private const val MAP_PADDING = 50 // pixels
+        private const val MAP_PADDING = 60 // pixels
     }
 }
