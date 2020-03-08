@@ -4,8 +4,11 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface Webservice {
-    @POST("${REST}GetNumbers")
-    suspend fun getNumbers(@Body data: DataDeviceIn): DataNumbersOut
+    @POST("${REST}GetMyNumbers")
+    suspend fun getMyNumbers(@Body data: DataDeviceIn): DataNumbersOut
+
+    @POST("${REST}GetPlaceNumbers")
+    suspend fun getPlaceNumbers(@Body data: DataNumbersIn): DataNumbersOut
 
     @POST("${REST}GetPlaces")
     suspend fun getPlaces(@Body data: DataPlacesIn): DataPlacesOut

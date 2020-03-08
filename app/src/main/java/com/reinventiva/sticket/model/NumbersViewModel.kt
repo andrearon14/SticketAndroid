@@ -2,44 +2,28 @@ package com.reinventiva.sticket.model
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.*
-import com.reinventiva.sticket.data.Repository
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class TicketNumberViewModel : ViewModel() {
-    val list = MutableLiveData<List<TicketNumberData>>()
+abstract class NumbersViewModel : ViewModel() {
+    val list = MutableLiveData<List<NumberData>>()
 
-    init {
-        viewModelScope.launch {
-            refreshList()
-        }
-    }
-
-    private suspend fun refreshList() {
-        list.value = Repository.R.getNumbers()
-    }
+    protected abstract suspend fun refreshList()
 
     fun refresh() = viewModelScope.launch {
-        refreshList()
-    }
-
-    fun takeTickets(sections: List<String>) = viewModelScope.launch {
-        Repository.R.takeTickets(sections)
-        refreshList()
-    }
-
-    fun releaseTickets(sections: List<String>) = viewModelScope.launch {
-        Repository.R.releaseTickets(sections)
         refreshList()
     }
 
     fun refreshOne(name: String, values: JSONObject) {
         list.value?.let {
             val isDelete = name == "Delete"
+            val placeId = (values["PlaceId"] as String).toInt()
             val section = values["Section"] as String
             for (item in it) {
-                if (item.Section.trimEnd() == section) {
+                if (item.PlaceId == placeId && item.Section.trimEnd() == section) {
                     if (isDelete) {
                         item.HasTicket = false
                     } else {

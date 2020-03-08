@@ -5,16 +5,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.model.PlaceViewModel
 
 private val TAB_TITLES = arrayOf(R.string.tab_text_1, R.string.tab_text_2)
 
-class NewTicketSuperPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class NewTicketSuperPagerAdapter(private val context: Context, fm: FragmentManager, private val viewModel: PlaceViewModel) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         if (position == 0)
-            return NewTicketSuperMapTabFragment()
+            return NewTicketSuperMapTabFragment(viewModel)
         else
-            return NewTicketSuperListTabFragment()
+            return NewTicketSuperListTabFragment(viewModel)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

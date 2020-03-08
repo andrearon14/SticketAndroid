@@ -8,9 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.Utils
-import com.reinventiva.sticket.model.TicketNumberData
+import com.reinventiva.sticket.model.NumberData
 
-class MyNumbersRecyclerAdapter(private val context: Context, val list: List<TicketNumberData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MyNumbersRecyclerAdapter(private val context: Context, val list: List<NumberData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var selectedPositions = ArrayList<Int>()
 

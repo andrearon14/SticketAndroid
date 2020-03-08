@@ -1,6 +1,7 @@
 package com.reinventiva.sticket.ui.newticketsuper
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -11,7 +12,11 @@ import com.google.android.gms.location.LocationServices
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.PlaceViewModel
 import com.reinventiva.sticket.ui.base.MyBaseActivity
+import com.reinventiva.sticket.ui.newticketnumber.NEW_TICKET_RESULT_CODE_HAS_NUMBERS
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.android.synthetic.main.new_ticket_super_activity.*
+
+private const val NEW_TICKET_REQUEST_CODE = 111
 
 class NewTicketSuperActivity : MyBaseActivity() {
 
@@ -30,7 +35,7 @@ class NewTicketSuperActivity : MyBaseActivity() {
         else
             requestPermissions()
 
-        view_pager.adapter = NewTicketSuperPagerAdapter(this, supportFragmentManager)
+        view_pager.adapter = NewTicketSuperPagerAdapter(this, supportFragmentManager, viewModel)
         tabs.setupWithViewPager(view_pager)
     }
 
@@ -62,8 +67,21 @@ class NewTicketSuperActivity : MyBaseActivity() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location : Location? ->
                 if (location != null)
-                    viewModel.updateDistance(location)
+                    viewModel.updateLocation(location)
             }
+    }
+
+    fun showNewTicketActivity(placeId: Int) {
+        val intent = Intent(this, NewTicketNumberActivity::class.java)
+            .putExtra(NewTicketNumberActivity.EXTRA_PLACE, placeId)
+        startActivityForResult(intent, NEW_TICKET_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == NEW_TICKET_REQUEST_CODE && resultCode == NEW_TICKET_RESULT_CODE_HAS_NUMBERS) {
+            finish()
+        }
     }
 
     companion object {

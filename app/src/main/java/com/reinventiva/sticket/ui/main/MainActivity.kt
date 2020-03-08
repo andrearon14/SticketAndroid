@@ -23,7 +23,7 @@ class MainActivity: MyBaseActivity() {
         Repository.R = Repository(this)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, MainFragment())
                 .commitNow()
         }
 

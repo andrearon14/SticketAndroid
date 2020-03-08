@@ -6,17 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.model.MyNumbersViewModel
 import com.reinventiva.sticket.ui.myinformation.MyInformationActivity
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import com.reinventiva.sticket.ui.newticketsuper.NewTicketSuperActivity
 import kotlinx.android.synthetic.main.main_fragment.*
 
+private const val MY_REQUEST_CODE = 111
+
 class MainFragment: Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
+    private lateinit var viewModel: MyNumbersViewModel
+    private var placeId : Int? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -25,26 +30,44 @@ class MainFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(MyNumbersViewModel::class.java)
+
+        viewModel.list.observe(viewLifecycleOwner, Observer {
+            placeId = it.firstOrNull()?.PlaceId
+        })
 
         val newTicket = View.OnClickListener {
-            val intent = Intent(context, NewTicketSuperActivity::class.java)
-            startActivity(intent)
+            val intent = if (placeId == null) {
+                Intent(context, NewTicketSuperActivity::class.java)
+            } else {
+                placeId?.let {
+                    Intent(context, NewTicketNumberActivity::class.java)
+                        .putExtra(NewTicketNumberActivity.EXTRA_PLACE, it)
+                }
+            }
+            startActivityForResult(intent, MY_REQUEST_CODE)
         }
         imageNewTicket.setOnClickListener(newTicket)
         buttonNewTicket.setOnClickListener(newTicket)
 
         val myNumbers = View.OnClickListener {
             val intent = Intent(context, MyNumbersActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, MY_REQUEST_CODE)
         }
         imageMyNumbers.setOnClickListener(myNumbers)
         buttonMyNumbers.setOnClickListener(myNumbers)
 
-        val myprofile = View.OnClickListener {
+        val myProfile = View.OnClickListener {
             val intent = Intent(context, MyInformationActivity::class.java)
             startActivity(intent)
         }
-        imageMyProfile.setOnClickListener(myprofile)
-        buttonMyProfile.setOnClickListener(myprofile)
+        imageMyProfile.setOnClickListener(myProfile)
+        buttonMyProfile.setOnClickListener(myProfile)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == MY_REQUEST_CODE)
+            viewModel.refresh()
     }
 }

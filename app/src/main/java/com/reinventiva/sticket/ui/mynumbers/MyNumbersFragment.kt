@@ -10,16 +10,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
-import com.reinventiva.sticket.model.TicketNumberViewModel
+import com.reinventiva.sticket.model.MyNumbersViewModel
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity.Companion.EXTRA_PLACE
+import com.reinventiva.sticket.ui.newticketsuper.NewTicketSuperActivity
 import kotlinx.android.synthetic.main.my_numbers_fragment.*
 import org.json.JSONObject
 
 private const val NEW_TICKET_REQUEST_CODE = 111
 
-class MyNumbersFragment: Fragment() {
+class MyNumbersFragment : Fragment() {
 
-    private lateinit var viewModel: TicketNumberViewModel
+    private lateinit var viewModel: MyNumbersViewModel
+    private var placeId: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +33,7 @@ class MyNumbersFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(TicketNumberViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MyNumbersViewModel::class.java)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
@@ -38,22 +41,29 @@ class MyNumbersFragment: Fragment() {
         viewModel.list.observe(viewLifecycleOwner, Observer {
             noNumbers.visibility = if (it.count { it.HasTicket } == 0) View.VISIBLE else View.GONE
             recyclerView.adapter = MyNumbersRecyclerAdapter(context!!, it.filter { it.HasTicket })
+            it.firstOrNull()?.let { placeId = it.PlaceId }
             swipeRefresh.isRefreshing = false
         })
 
         buttonAdd.setOnClickListener {
-            val intent = Intent(context, NewTicketNumberActivity::class.java)
+            val intent = if (placeId == 0) {
+                Intent(context, NewTicketSuperActivity::class.java)
+            } else {
+                Intent(context, NewTicketNumberActivity::class.java)
+                    .putExtra(EXTRA_PLACE, placeId)
+            }
             startActivityForResult(intent, NEW_TICKET_REQUEST_CODE)
         }
 
         buttonRemove.setOnClickListener {
             val adapter = recyclerView.adapter
             if (adapter is MyNumbersRecyclerAdapter) {
-                val sections = adapter.list
+                val dataMap = adapter.list
                     .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
-                    .map { d -> d.Section }
+                    .groupBy({ it.PlaceId }, { it.Section })
                 swipeRefresh.isRefreshing = true
-                viewModel.releaseTickets(sections)
+                for (entry in dataMap)
+                    viewModel.releaseTickets(entry.key, entry.value)
             }
         }
 

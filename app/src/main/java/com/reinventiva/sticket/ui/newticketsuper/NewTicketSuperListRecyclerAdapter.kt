@@ -10,17 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.PlaceData
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity.Companion.EXTRA_PLACE
 
 class NewTicketSuperListRecyclerAdapter(private val context: Context, private val list: List<PlaceData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val rootView = LayoutInflater.from(context).inflate(R.layout.new_ticket_super_list_tab_item, parent, false)
-        return MyViewHolder(
-            rootView
-        ).listen { _, _ ->
-            val intent = Intent(context, NewTicketNumberActivity::class.java)
-            context.startActivity(intent)
-        }
+        return MyViewHolder(rootView)
     }
 
     override fun getItemCount(): Int = list.size
@@ -28,6 +24,7 @@ class NewTicketSuperListRecyclerAdapter(private val context: Context, private va
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = list.get(position)
         if (holder is MyViewHolder) {
+            holder.placeId = data.Id
             holder.textViewName.text = data.Name
             holder.textViewDistance.text = "${data.Distance}m"
         }
@@ -36,11 +33,12 @@ class NewTicketSuperListRecyclerAdapter(private val context: Context, private va
     private inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val textViewName: TextView = itemView.findViewById(R.id.textViewName)
         val textViewDistance: TextView = itemView.findViewById(R.id.textViewDistance)
+        var placeId: Int = 0
 
         init {
             itemView.setOnClickListener {
-                val intent = Intent(context, NewTicketSuperActivity::class.java)
-                context.startActivity(intent)
+                if (context is NewTicketSuperActivity)
+                    context.showNewTicketActivity(placeId)
             }
         }
     }

@@ -1,7 +1,7 @@
 package com.reinventiva.sticket.data
 
-import com.reinventiva.sticket.model.TicketNumberData
+import com.reinventiva.sticket.model.NumberData
 
 data class DataNumbersOut(
-    val List: List<TicketNumberData>
+    val List: List<NumberData>
 )

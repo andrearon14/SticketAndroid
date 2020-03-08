@@ -13,15 +13,13 @@ class PlaceViewModel : ViewModel() {
     val list = MutableLiveData<List<PlaceData>>()
 
     init {
-        viewModelScope.launch {
-            refreshList()
-        }
+        refresh()
     }
 
-    private suspend fun refreshList() {
-        val currentPosition = lastLocation?.toGxPosition() ?: ""
+    private suspend fun refreshList(location: Location) {
+        val currentPosition = location.toGxPosition()
         val dataList = Repository.R.getPlaces(currentPosition)
-        lastLocation?.let { updateDistance(dataList, it) }
+        updateDistance(dataList, location)
         list.value = dataList
     }
 
@@ -32,16 +30,20 @@ class PlaceViewModel : ViewModel() {
         }
     }
 
-    fun updateDistance(location: Location) {
-        list.value?.let {
-            updateDistance(it, location)
-            list.value = it
-        }
+    fun updateLocation(location: Location) {
         lastLocation = location
+        if (list.value == null) {
+            refresh()
+        } else {
+            list.value?.let {
+                updateDistance(it, location)
+                list.value = it
+            }
+        }
     }
 
     fun refresh() = viewModelScope.launch {
-        refreshList()
+        lastLocation?.let { refreshList(it) }
     }
 
     companion object {

@@ -6,6 +6,7 @@ import android.os.Handler
 import android.provider.Settings
 import android.widget.Toast
 import com.reinventiva.sticket.model.MyInformationData
+import com.reinventiva.sticket.model.NumberData
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -38,15 +39,17 @@ class Repository(context: Context) {
         .addConverterFactory(MoshiConverterFactory.create())
         .build().create(Webservice::class.java)
 
-    suspend fun getNumbers() = client.getNumbers(DataDeviceIn(androidId)).List
-    suspend fun getPlaces(currentPosition: String) = client.getPlaces(DataPlacesIn(currentPosition)).List
-    suspend fun takeTickets(sections: List<String>) = client.takeTickets(DataTicketsIn(androidId, sections))
-    suspend fun releaseTickets(sections: List<String>) = client.releaseTickets(DataTicketsIn(androidId, sections))
+    suspend fun getMyNumbers() = client.getMyNumbers(DataDeviceIn(androidId)).List
+    suspend fun getPlaceNumbers(placeId: Int): List<NumberData> = client.getPlaceNumbers(DataNumbersIn(androidId, placeId)).List
+    suspend fun getPlaces(currentPosition: String) = client.getPlaces(DataPlacesIn(currentPosition, PLACE_DISTANCE)).List
+    suspend fun takeTickets(placeId: Int, sections: List<String>) = client.takeTickets(DataTicketsIn(androidId, placeId, sections))
+    suspend fun releaseTickets(placeId: Int, sections: List<String>) = client.releaseTickets(DataTicketsIn(androidId, placeId, sections))
     suspend fun registerDevice(deviceToken: String) = client.registerDevice(DataDeviceRegistrationIn(androidId, deviceToken))
     suspend fun getMyInformation() = client.getMyInformation(DataDeviceIn(androidId)).Data
     suspend fun setMyInformation(data: MyInformationData) = client.setMyInformation(DataMyInformationIn(androidId, data))
 
     companion object {
         lateinit var R: Repository
+        private const val PLACE_DISTANCE = 1000 // metros
     }
 }

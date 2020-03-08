@@ -1,6 +1,7 @@
 package com.reinventiva.sticket.model
 
-data class TicketNumberData(
+data class NumberData(
+    val PlaceId: Int,
     val Section: String,
     var HasTicket: Boolean,
     val TicketNumber: Int,

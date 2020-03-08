@@ -10,13 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
-import com.reinventiva.sticket.model.TicketNumberViewModel
+import com.reinventiva.sticket.model.PlaceNumbersViewModel
+import com.reinventiva.sticket.model.PlaceNumberViewModelFactory
 import kotlinx.android.synthetic.main.new_ticket_number_fragment.*
 import org.json.JSONObject
 
-class NewTicketNumberFragment: Fragment() {
+class NewTicketNumberFragment(private val placeId: Int): Fragment() {
 
-    private lateinit var viewModel: TicketNumberViewModel
+    private lateinit var viewModel: PlaceNumbersViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,13 +29,15 @@ class NewTicketNumberFragment: Fragment() {
     @SuppressLint("HardwareIds")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(TicketNumberViewModel::class.java)
+        viewModel = ViewModelProvider(this, PlaceNumberViewModelFactory(placeId)).get(PlaceNumbersViewModel::class.java)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         swipeRefresh.isRefreshing = true
         viewModel.list.observe(viewLifecycleOwner, Observer {
             recyclerView.adapter = NewTicketNumberRecyclerAdapter(context!!, it)
+            if (it.count { it.HasTicket } > 0)
+                activity?.setResult(NEW_TICKET_RESULT_CODE_HAS_NUMBERS)
             swipeRefresh.isRefreshing = false
         })
 

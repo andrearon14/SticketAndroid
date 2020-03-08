@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.LocationExtension
@@ -20,9 +21,8 @@ import com.reinventiva.sticket.model.PlaceViewModel
 import com.reinventiva.sticket.model.toLatLng
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 
-class NewTicketSuperMapTabFragment : Fragment(), OnMapReadyCallback {
+class NewTicketSuperMapTabFragment(private val viewModel: PlaceViewModel) : Fragment(), OnMapReadyCallback {
 
-    private lateinit var viewModel: PlaceViewModel
     private lateinit var map: GoogleMap
     private var lastClickMarkerId: Int? = null
 
@@ -35,7 +35,6 @@ class NewTicketSuperMapTabFragment : Fragment(), OnMapReadyCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PlaceViewModel::class.java)
 
         val mapFragment = childFragmentManager.fragments[0]
         if (mapFragment is SupportMapFragment)
@@ -62,16 +61,11 @@ class NewTicketSuperMapTabFragment : Fragment(), OnMapReadyCallback {
         map = googleMap
         map.isMyLocationEnabled = true
         map.setOnInfoWindowClickListener {
-            val intent = Intent(context, NewTicketNumberActivity::class.java)
-            context!!.startActivity(intent)
-        }
-        map.setOnMapClickListener {
-            lastClickMarkerId = null
+            showNewTicketActivity(it)
         }
         map.setOnMarkerClickListener {
             if (lastClickMarkerId == it.tag as Int) {
-                val intent = Intent(context, NewTicketNumberActivity::class.java)
-                context!!.startActivity(intent)
+                showNewTicketActivity(it)
                 lastClickMarkerId = null
                 true
             } else {
@@ -79,6 +73,10 @@ class NewTicketSuperMapTabFragment : Fragment(), OnMapReadyCallback {
                 false
             }
         }
+    }
+
+    private fun showNewTicketActivity(marker: Marker) {
+        (activity as NewTicketSuperActivity).showNewTicketActivity(marker.tag as Int)
     }
 
     companion object {
