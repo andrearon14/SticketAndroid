@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.reinventiva.sticket.data.Repository
+import com.reinventiva.sticket.geo.LocationExtension
+import com.reinventiva.sticket.geo.toGxPosition
 import kotlinx.coroutines.launch
 
 class PlaceViewModel(val sections: List<String>) : ViewModel() {

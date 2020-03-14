@@ -27,7 +27,7 @@ class NewTicketSuperListRecyclerAdapter(private val context: Context, private va
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val data = list.get(position)
         if (holder is MyViewHolder) {
-            holder.placeId = data.Id
+            holder.place = data
             holder.textViewName.text = data.Name
 
             var distanceText = if (data.GoogleDistance != null && data.GoogleTravelTime != null)
@@ -43,12 +43,12 @@ class NewTicketSuperListRecyclerAdapter(private val context: Context, private va
     private inner class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val textViewName: TextView = itemView.findViewById(R.id.textViewName)
         val textViewDistance: TextView = itemView.findViewById(R.id.textViewDistance)
-        var placeId: Int = 0
+        lateinit var place: PlaceData
 
         init {
             itemView.setOnClickListener {
                 if (context is NewTicketSuperActivity)
-                    context.showNewTicketActivity(placeId)
+                    context.showNewTicketActivity(place)
             }
         }
     }

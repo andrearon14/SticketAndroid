@@ -1,4 +1,4 @@
-package com.reinventiva.sticket.model
+package com.reinventiva.sticket.geo
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng

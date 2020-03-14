@@ -1,13 +1,11 @@
 package com.reinventiva.sticket.ui.newticketsuper
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,10 +14,10 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.reinventiva.sticket.R
-import com.reinventiva.sticket.model.LocationExtension
+import com.reinventiva.sticket.geo.LocationExtension
 import com.reinventiva.sticket.model.PlaceViewModel
-import com.reinventiva.sticket.model.toLatLng
-import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
+import com.reinventiva.sticket.geo.toLatLng
+import com.reinventiva.sticket.model.PlaceData
 
 class NewTicketSuperMapTabFragment(private val viewModel: PlaceViewModel) : Fragment(), OnMapReadyCallback {
 
@@ -47,7 +45,7 @@ class NewTicketSuperMapTabFragment(private val viewModel: PlaceViewModel) : Frag
             for (data in list) {
                 LocationExtension.fromGxPosition(data.Position)?.toLatLng()?.let {
                     val marker = map.addMarker(MarkerOptions().position(it).title(data.Name))
-                    marker.tag = data.Id
+                    marker.tag = data
                     if (first)
                         first = false
                     else if (data.GoogleDistance != null && viewModel.sections.isNotEmpty())
@@ -70,19 +68,20 @@ class NewTicketSuperMapTabFragment(private val viewModel: PlaceViewModel) : Frag
             showNewTicketActivity(it)
         }
         map.setOnMarkerClickListener {
-            if (lastClickMarkerId == it.tag as Int) {
+            val clickMarkerId = (it.tag as PlaceData).Id
+            if (lastClickMarkerId == clickMarkerId) {
                 showNewTicketActivity(it)
                 lastClickMarkerId = null
                 true
             } else {
-                lastClickMarkerId = it.tag as Int
+                lastClickMarkerId = clickMarkerId
                 false
             }
         }
     }
 
     private fun showNewTicketActivity(marker: Marker) {
-        (activity as NewTicketSuperActivity).showNewTicketActivity(marker.tag as Int)
+        (activity as NewTicketSuperActivity).showNewTicketActivity(marker.tag as PlaceData)
     }
 
     companion object {

@@ -1,15 +1,21 @@
 package com.reinventiva.sticket.ui.newticketsuper
 
 import android.Manifest
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.Utils
+import com.reinventiva.sticket.geo.GeoRepository
+import com.reinventiva.sticket.geo.LocationExtension
+import com.reinventiva.sticket.model.PlaceData
 import com.reinventiva.sticket.model.PlaceViewModel
 import com.reinventiva.sticket.model.PlaceViewModelFactory
 import com.reinventiva.sticket.ui.base.MyBaseActivity
@@ -32,21 +38,34 @@ class NewTicketSuperActivity : MyBaseActivity() {
         val sections = intent.getStringArrayExtra(NewTicketNumberActivity.EXTRA_SECTIONS)?.toList() ?: emptyList()
         viewModel = ViewModelProvider(this, PlaceViewModelFactory(sections)).get(PlaceViewModel::class.java)
 
-        if (checkPermissions())
+        val needsBackground = sections.isNotEmpty() &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+        if (checkPermissions(needsBackground))
             load()
         else
-            requestPermissions()
+            requestPermissions(needsBackground)
     }
 
-    private fun checkPermissions(): Boolean {
-        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    private fun checkPermissions(needsBackground: Boolean): Boolean {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return false
+        }
+        if (needsBackground &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return false
+        }
+
+        return true
     }
 
-    private fun requestPermissions() {
+    private fun requestPermissions(needsBackground: Boolean) {
         ActivityCompat.requestPermissions(
             this,
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            if (needsBackground)
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            else
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
             PERMISSION_ID
         )
     }
@@ -75,11 +94,17 @@ class NewTicketSuperActivity : MyBaseActivity() {
         tabs.setupWithViewPager(view_pager)
     }
 
-    fun showNewTicketActivity(placeId: Int) {
+    fun showNewTicketActivity(place: PlaceData) {
         val intent = Intent(this, NewTicketNumberActivity::class.java)
-            .putExtra(NewTicketNumberActivity.EXTRA_PLACE, placeId)
+            .putExtra(NewTicketNumberActivity.EXTRA_PLACE, place.Id)
             .putExtra(NewTicketNumberActivity.EXTRA_SECTIONS, viewModel.sections.toTypedArray())
         startActivityForResult(intent, NEW_TICKET_REQUEST_CODE)
+        if (viewModel.sections.isNotEmpty()) {
+            LocationExtension.fromGxPosition(place.Position)?.let {
+                val pendingIntent = PendingIntent.getActivity(this, NEW_TICKET_REQUEST_CODE, intent, 0)
+                GeoRepository.R.add(place.Name, it, pendingIntent)
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

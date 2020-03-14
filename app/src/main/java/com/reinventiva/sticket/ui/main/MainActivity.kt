@@ -8,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.onesignal.OneSignal
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.data.Repository
+import com.reinventiva.sticket.geo.GeoRepository
 import com.reinventiva.sticket.ui.base.MyBaseActivity
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
 import kotlinx.coroutines.GlobalScope
@@ -20,7 +21,10 @@ class MainActivity: MyBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         supportActionBar?.title = "S-ticket"
+
         Repository.R = Repository(this)
+        GeoRepository.R = GeoRepository(this)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFragment())
