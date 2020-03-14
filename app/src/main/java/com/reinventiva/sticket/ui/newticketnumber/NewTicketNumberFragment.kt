@@ -33,7 +33,7 @@ class NewTicketNumberFragment(private val placeId: Int, private var sections: Li
 
         swipeRefresh.isRefreshing = true
         viewModel.list.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = NewTicketNumberRecyclerAdapter(context!!, it, sections)
+            recyclerView.adapter = NewTicketNumberRecyclerAdapter(context!!, it, sections) { button.isEnabled = it }
             sections = null // Una vez solamente
             if (it.count { it.HasTicket } > 0)
                 activity?.setResult(NEW_TICKET_RESULT_CODE_HAS_NUMBERS)
@@ -43,11 +43,8 @@ class NewTicketNumberFragment(private val placeId: Int, private var sections: Li
         button.setOnClickListener {
             val adapter = recyclerView.adapter
             if (adapter is NewTicketNumberRecyclerAdapter ) {
-                val sections = adapter.list
-                    .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
-                    .map { d -> d.Section }
                 swipeRefresh.isRefreshing = true
-                viewModel.takeTickets(sections)
+                viewModel.takeTickets(adapter.selectedSections)
             }
         }
 

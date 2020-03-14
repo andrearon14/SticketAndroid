@@ -9,9 +9,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.SectionData
 
-class NewTicketSectionRecyclerAdapter(private val context: Context, val list: List<SectionData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NewTicketSectionRecyclerAdapter(
+    private val context: Context,
+    private val list: List<SectionData>,
+    private val onHasSectionsChange: (hasSections: Boolean) -> Unit)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var selectedPositions = ArrayList<Int>()
+    private var selectedPositions = ArrayList<Int>()
+
+    val selectedSections get() = list
+        .filterIndexed { index, _ -> selectedPositions.contains(index) }
+        .map { it.Section }
+
+    init {
+        onHasSectionsChange(selectedPositions.isNotEmpty())
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val rootView =
@@ -38,6 +50,7 @@ class NewTicketSectionRecyclerAdapter(private val context: Context, val list: Li
                     selectedPositions.remove(layoutPosition)
                 else
                     selectedPositions.add(layoutPosition)
+                onHasSectionsChange(selectedPositions.isNotEmpty())
                 notifyItemChanged(layoutPosition)
             }
         }

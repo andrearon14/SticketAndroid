@@ -37,18 +37,15 @@ class NewTicketSectionFragment : Fragment() {
 
         swipeRefresh.isRefreshing = true
         viewModel.list.observe(viewLifecycleOwner, Observer {
-            recyclerView.adapter = NewTicketSectionRecyclerAdapter(context!!, it)
+            recyclerView.adapter = NewTicketSectionRecyclerAdapter(context!!, it) { button.isEnabled = it }
             swipeRefresh.isRefreshing = false
         })
 
         button.setOnClickListener {
             val adapter = recyclerView.adapter
             if (adapter is NewTicketSectionRecyclerAdapter) {
-                val sectionList = adapter.list
-                    .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
-                    .map { it.Section }.toTypedArray()
                 val intent = Intent(context, NewTicketSuperActivity::class.java)
-                    .putExtra(NewTicketNumberActivity.EXTRA_SECTIONS, sectionList)
+                    .putExtra(NewTicketNumberActivity.EXTRA_SECTIONS, adapter.selectedSections.toTypedArray())
                 startActivityForResult(intent, NEW_TICKET_REQUEST_CODE)
             }
         }

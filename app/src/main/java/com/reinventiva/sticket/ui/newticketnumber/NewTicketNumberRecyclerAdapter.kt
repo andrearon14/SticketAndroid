@@ -11,9 +11,18 @@ import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.NumberData
 
 
-class NewTicketNumberRecyclerAdapter(private val context: Context, val list: List<NumberData>, private val sections: List<String>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NewTicketNumberRecyclerAdapter(
+    private val context: Context,
+    private val list: List<NumberData>,
+    sections: List<String>?,
+    private val onHasSectionsChange: (hasSections: Boolean) -> Unit)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var selectedPositions = ArrayList<Int>()
+    private var selectedPositions = ArrayList<Int>()
+
+    val selectedSections get() = list
+        .filterIndexed { index, data -> selectedPositions.contains(index) && !data.HasTicket }
+        .map { d -> d.Section }
 
     init {
         if (sections != null) {
@@ -22,6 +31,7 @@ class NewTicketNumberRecyclerAdapter(private val context: Context, val list: Lis
                     selectedPositions.add(index)
             }
         }
+        onHasSectionsChange(selectedSections.isNotEmpty())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -52,6 +62,7 @@ class NewTicketNumberRecyclerAdapter(private val context: Context, val list: Lis
                     selectedPositions.remove(layoutPosition)
                 else
                     selectedPositions.add(layoutPosition)
+                onHasSectionsChange(selectedSections.isNotEmpty())
                 notifyItemChanged(layoutPosition)
             }
             checkBoxHasNumber.setOnClickListener {

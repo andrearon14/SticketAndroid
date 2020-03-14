@@ -10,9 +10,21 @@ import com.reinventiva.sticket.R
 import com.reinventiva.sticket.Utils
 import com.reinventiva.sticket.model.NumberData
 
-class MyNumbersRecyclerAdapter(private val context: Context, val list: List<NumberData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MyNumbersRecyclerAdapter(
+    private val context: Context,
+    private val list: List<NumberData>,
+    private val onHasSectionsChange: (hasSections: Boolean) -> Unit)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var selectedPositions = ArrayList<Int>()
+    private var selectedPositions = ArrayList<Int>()
+
+    val selectedPlaceSections get() = list
+        .filterIndexed { index, _ -> selectedPositions.contains(index) }
+        .groupBy({ it.PlaceId }, { it.Section })
+
+    init {
+        onHasSectionsChange(selectedPlaceSections.isNotEmpty())
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val rootView = LayoutInflater.from(context).inflate(R.layout.my_numbers_item, parent, false)
@@ -42,6 +54,7 @@ class MyNumbersRecyclerAdapter(private val context: Context, val list: List<Numb
                     selectedPositions.remove(layoutPosition)
                 else
                     selectedPositions.add(layoutPosition)
+                onHasSectionsChange(selectedPlaceSections.isNotEmpty())
                 notifyItemChanged(layoutPosition)
             }
         }

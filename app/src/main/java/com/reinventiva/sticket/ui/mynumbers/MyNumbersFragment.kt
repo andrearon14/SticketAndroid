@@ -38,10 +38,10 @@ class MyNumbersFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         swipeRefresh.isRefreshing = true
-        viewModel.list.observe(viewLifecycleOwner, Observer {
-            noNumbers.visibility = if (it.count { it.HasTicket } == 0) View.VISIBLE else View.GONE
-            recyclerView.adapter = MyNumbersRecyclerAdapter(context!!, it.filter { it.HasTicket })
-            it.firstOrNull()?.let { placeId = it.PlaceId }
+        viewModel.list.observe(viewLifecycleOwner, Observer { data ->
+            noNumbers.visibility = if (data.count { it.HasTicket } == 0) View.VISIBLE else View.GONE
+            recyclerView.adapter = MyNumbersRecyclerAdapter(context!!, data.filter { it.HasTicket }) { buttonRemove.isEnabled = it }
+            data.firstOrNull()?.let { placeId = it.PlaceId }
             swipeRefresh.isRefreshing = false
         })
 
@@ -58,11 +58,8 @@ class MyNumbersFragment : Fragment() {
         buttonRemove.setOnClickListener {
             val adapter = recyclerView.adapter
             if (adapter is MyNumbersRecyclerAdapter) {
-                val dataMap = adapter.list
-                    .filterIndexed { index, _ -> adapter.selectedPositions.contains(index) }
-                    .groupBy({ it.PlaceId }, { it.Section })
                 swipeRefresh.isRefreshing = true
-                for (entry in dataMap)
+                for (entry in adapter.selectedPlaceSections)
                     viewModel.releaseTickets(entry.key, entry.value)
             }
         }
