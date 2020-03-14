@@ -11,13 +11,14 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.PlaceViewModel
+import com.reinventiva.sticket.model.PlaceViewModelFactory
 import com.reinventiva.sticket.ui.base.MyBaseActivity
 import com.reinventiva.sticket.ui.newticketnumber.NEW_TICKET_RESULT_CODE_HAS_NUMBERS
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.android.synthetic.main.new_ticket_super_activity.*
 
 private const val PERMISSION_ID = 1
-private const val NEW_TICKET_REQUEST_CODE = 111
+const val NEW_TICKET_REQUEST_CODE = 111
 
 class NewTicketSuperActivity : MyBaseActivity() {
 
@@ -28,7 +29,8 @@ class NewTicketSuperActivity : MyBaseActivity() {
         setContentView(R.layout.new_ticket_super_activity)
         supportActionBar?.title = "Ticket Nuevo"
 
-        viewModel = ViewModelProvider(this).get(PlaceViewModel::class.java)
+        val sections = intent.getStringArrayExtra(NewTicketNumberActivity.EXTRA_SECTIONS)?.toList() ?: emptyList()
+        viewModel = ViewModelProvider(this, PlaceViewModelFactory(sections)).get(PlaceViewModel::class.java)
 
         if (checkPermissions())
             load()
@@ -52,7 +54,7 @@ class NewTicketSuperActivity : MyBaseActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_ID) {
-            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Granted. Start getting the location information
                 load()
             } else {
@@ -76,12 +78,15 @@ class NewTicketSuperActivity : MyBaseActivity() {
     fun showNewTicketActivity(placeId: Int) {
         val intent = Intent(this, NewTicketNumberActivity::class.java)
             .putExtra(NewTicketNumberActivity.EXTRA_PLACE, placeId)
+            .putExtra(NewTicketNumberActivity.EXTRA_SECTIONS, viewModel.sections.toTypedArray())
         startActivityForResult(intent, NEW_TICKET_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == NEW_TICKET_REQUEST_CODE && resultCode == NEW_TICKET_RESULT_CODE_HAS_NUMBERS)
+        if (requestCode == NEW_TICKET_REQUEST_CODE && resultCode == NEW_TICKET_RESULT_CODE_HAS_NUMBERS) {
+            setResult(NEW_TICKET_RESULT_CODE_HAS_NUMBERS)
             finish()
+        }
     }
 }

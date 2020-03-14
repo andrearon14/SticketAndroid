@@ -39,17 +39,20 @@ class Repository(context: Context) {
         .addConverterFactory(MoshiConverterFactory.create())
         .build().create(Webservice::class.java)
 
+    private val apiKey = context.resources.getString(context.resources.getIdentifier("google_maps_key", "string", context.packageName))
+
     suspend fun getMyNumbers() = client.getMyNumbers(DataDeviceIn(androidId)).List
     suspend fun getPlaceNumbers(placeId: Int): List<NumberData> = client.getPlaceNumbers(DataNumbersIn(androidId, placeId)).List
-    suspend fun getPlaces(currentPosition: String) = client.getPlaces(DataPlacesIn(currentPosition, PLACE_DISTANCE)).List
+    suspend fun getPlaces(currentPosition: String, sections: List<String>, distance: Int) = client.getPlaces(DataPlacesIn(currentPosition, sections, distance)).List
     suspend fun takeTickets(placeId: Int, sections: List<String>) = client.takeTickets(DataTicketsIn(androidId, placeId, sections))
     suspend fun releaseTickets(placeId: Int, sections: List<String>) = client.releaseTickets(DataTicketsIn(androidId, placeId, sections))
     suspend fun registerDevice(deviceToken: String) = client.registerDevice(DataDeviceRegistrationIn(androidId, deviceToken))
     suspend fun getMyInformation() = client.getMyInformation(DataDeviceIn(androidId)).Data
     suspend fun setMyInformation(data: MyInformationData) = client.setMyInformation(DataMyInformationIn(androidId, data))
+    suspend fun getSections() = client.getSections().List
+    suspend fun getGoogleDistance(origins: String, destinations: String) = client.getGoogleDistance(origins, destinations, apiKey)
 
     companion object {
         lateinit var R: Repository
-        private const val PLACE_DISTANCE = 1000 // metros
     }
 }

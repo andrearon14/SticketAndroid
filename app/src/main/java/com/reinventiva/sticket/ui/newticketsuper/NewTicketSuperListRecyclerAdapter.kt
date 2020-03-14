@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.util.TimeUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import com.reinventiva.sticket.R
+import com.reinventiva.sticket.Utils
 import com.reinventiva.sticket.model.PlaceData
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity.Companion.EXTRA_PLACE
+import java.lang.StringBuilder
 
 class NewTicketSuperListRecyclerAdapter(private val context: Context, private val list: List<PlaceData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -26,7 +29,14 @@ class NewTicketSuperListRecyclerAdapter(private val context: Context, private va
         if (holder is MyViewHolder) {
             holder.placeId = data.Id
             holder.textViewName.text = data.Name
-            holder.textViewDistance.text = "${data.Distance}m"
+
+            var distanceText = if (data.GoogleDistance != null && data.GoogleTravelTime != null)
+                "${data.GoogleDistance}, ${Utils.durationToString(data.GoogleTravelTime!!)} en auto"
+            else
+                "${data.Distance}m"
+            if (data.Waiting > 0)
+                distanceText += ", ticket ${Utils.durationToString(data.Waiting)}"
+            holder.textViewDistance.text = distanceText
         }
     }
 

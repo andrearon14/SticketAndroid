@@ -41,11 +41,17 @@ class NewTicketSuperMapTabFragment(private val viewModel: PlaceViewModel) : Frag
             mapFragment.getMapAsync(this)
 
         viewModel.list.observe(viewLifecycleOwner, Observer { list ->
+            map.clear()
             val builder = LatLngBounds.Builder()
+            var first = true
             for (data in list) {
                 LocationExtension.fromGxPosition(data.Position)?.toLatLng()?.let {
                     val marker = map.addMarker(MarkerOptions().position(it).title(data.Name))
                     marker.tag = data.Id
+                    if (first)
+                        first = false
+                    else if (data.GoogleDistance != null && viewModel.sections.isNotEmpty())
+                        marker.alpha = .3f
                     builder.include(it)
                 }
             }

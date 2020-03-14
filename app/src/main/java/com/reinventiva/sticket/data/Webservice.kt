@@ -1,7 +1,9 @@
 package com.reinventiva.sticket.data
 
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface Webservice {
     @POST("${REST}GetMyNumbers")
@@ -27,6 +29,14 @@ interface Webservice {
 
     @POST("${REST}SetMyInformation")
     suspend fun setMyInformation(@Body data: DataMyInformationIn)
+
+    @POST("${REST}GetSections")
+    suspend fun getSections(): DataSectionsOut
+
+    @GET("https://maps.googleapis.com/maps/api/distancematrix/json")
+    suspend fun getGoogleDistance(@Query("origins") origins: String,
+                                  @Query("destinations") destinations: String,
+                                  @Query("key") key: String): DataGoogleDistance
 
     companion object {
         private const val REST = "/Id169255290677041e3d4e2c55f705da5b/rest/"

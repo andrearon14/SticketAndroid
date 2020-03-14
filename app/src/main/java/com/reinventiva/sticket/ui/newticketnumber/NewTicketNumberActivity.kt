@@ -15,8 +15,9 @@ class NewTicketNumberActivity: MyBaseActivity() {
         supportActionBar?.title = "Ticket Nuevo"
         if (savedInstanceState == null) {
             val placeId = intent.getIntExtra(EXTRA_PLACE, 0)
+            val sections = intent.getStringArrayExtra(EXTRA_SECTIONS)?.toList()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, NewTicketNumberFragment(placeId))
+                .replace(R.id.container, NewTicketNumberFragment(placeId, sections))
                 .commitNow()
         }
     }
@@ -26,6 +27,7 @@ class NewTicketNumberActivity: MyBaseActivity() {
     override fun updateNotification(name: String, values: JSONObject) = fragment.refreshValues(name, values)
 
     companion object {
+        const val EXTRA_SECTIONS = "Sections"
         const val EXTRA_PLACE = "Place"
     }
 }

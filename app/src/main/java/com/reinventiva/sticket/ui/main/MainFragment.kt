@@ -12,8 +12,8 @@ import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.MyNumbersViewModel
 import com.reinventiva.sticket.ui.myinformation.MyInformationActivity
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
+import com.reinventiva.sticket.ui.newticketchoose.NewTicketChooseActivity
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
-import com.reinventiva.sticket.ui.newticketsuper.NewTicketSuperActivity
 import kotlinx.android.synthetic.main.main_fragment.*
 
 private const val MY_REQUEST_CODE = 111
@@ -38,7 +38,7 @@ class MainFragment: Fragment() {
 
         val newTicket = View.OnClickListener {
             val intent = if (placeId == null) {
-                Intent(context, NewTicketSuperActivity::class.java)
+                Intent(context, NewTicketChooseActivity::class.java)
             } else {
                 placeId?.let {
                     Intent(context, NewTicketNumberActivity::class.java)

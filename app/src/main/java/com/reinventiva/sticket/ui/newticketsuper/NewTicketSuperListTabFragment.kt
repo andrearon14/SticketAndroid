@@ -33,7 +33,7 @@ class NewTicketSuperListTabFragment(private val viewModel: PlaceViewModel) : Fra
 
         swipeRefresh.isRefreshing = true
         viewModel.list.observe(viewLifecycleOwner, Observer<List<PlaceData>> {
-            recyclerView.adapter = NewTicketSuperListRecyclerAdapter(context!!, it.sortedBy { it.Distance })
+            recyclerView.adapter = NewTicketSuperListRecyclerAdapter(context!!, it)
             swipeRefresh.isRefreshing = false
         })
 

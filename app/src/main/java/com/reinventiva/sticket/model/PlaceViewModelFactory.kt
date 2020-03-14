@@ -3,9 +3,9 @@ package com.reinventiva.sticket.model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class PlaceNumberViewModelFactory(private val placeId: Int) : ViewModelProvider.Factory {
+class PlaceViewModelFactory(private val sections: List<String>) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
-        return PlaceNumbersViewModel(placeId) as T
+        return PlaceViewModel(sections) as T
     }
 }

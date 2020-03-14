@@ -11,9 +11,18 @@ import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.NumberData
 
 
-class NewTicketNumberRecyclerAdapter(private val context: Context, val list: List<NumberData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NewTicketNumberRecyclerAdapter(private val context: Context, val list: List<NumberData>, private val sections: List<String>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var selectedPositions = ArrayList<Int>()
+
+    init {
+        if (sections != null) {
+            for ((index, data) in list.withIndex()) {
+                if (sections.contains(data.Section))
+                    selectedPositions.add(index)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val rootView = LayoutInflater.from(context).inflate(R.layout.new_ticket_number_item, parent, false)

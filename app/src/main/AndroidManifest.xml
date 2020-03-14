@@ -27,13 +27,13 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".ui.base.MyBaseActivity" />
-        <activity android:name=".ui.myinformation.MyInformationActivity" />
-        <activity android:name=".ui.mynumbers.MyNumbersActivity" />
+        <activity android:name=".ui.newticketsuper.NewTicketSuperActivity" />
+        <activity android:name=".ui.newticketchoose.NewTicketChooseActivity" />
+        <activity android:name=".ui.newticketsection.NewTicketSectionActivity" />
+        <activity android:name=".ui.newtickettimesuper.NewTicketTimeSuperActivity" />
         <activity android:name=".ui.newticketnumber.NewTicketNumberActivity" />
-        <activity
-            android:name=".ui.newticketsuper.NewTicketSuperActivity"
-            android:label="@string/title_activity_new_ticket_super"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.mynumbers.MyNumbersActivity" />
+        <activity android:name=".ui.myinformation.MyInformationActivity" />
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
