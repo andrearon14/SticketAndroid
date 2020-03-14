@@ -57,7 +57,7 @@ class GeoRepository(val context: Context) {
 
     companion object {
         lateinit var R: GeoRepository
-        const val GEOFENCE_RADIUS_IN_METERS = 100F
+        const val GEOFENCE_RADIUS_IN_METERS = 150F
         const val GEOFENCE_EXPIRATION_IN_MILLISECONDS = 3600000L // 1 hora
     }
 }
