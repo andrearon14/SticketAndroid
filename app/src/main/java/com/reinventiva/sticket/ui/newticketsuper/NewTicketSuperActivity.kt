@@ -2,6 +2,7 @@ package com.reinventiva.sticket.ui.newticketsuper
 
 import android.Manifest
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -21,10 +22,11 @@ import com.reinventiva.sticket.model.PlaceViewModelFactory
 import com.reinventiva.sticket.ui.base.MyBaseActivity
 import com.reinventiva.sticket.ui.newticketnumber.NEW_TICKET_RESULT_CODE_HAS_NUMBERS
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberFragment
 import kotlinx.android.synthetic.main.new_ticket_super_activity.*
 
 private const val PERMISSION_ID = 1
-const val NEW_TICKET_REQUEST_CODE = 111
+internal const val NEW_TICKET_REQUEST_CODE = 111
 
 class NewTicketSuperActivity : MyBaseActivity() {
 
@@ -100,8 +102,12 @@ class NewTicketSuperActivity : MyBaseActivity() {
             .putExtra(NewTicketNumberActivity.EXTRA_SECTIONS, viewModel.sections.toTypedArray())
         startActivityForResult(intent, NEW_TICKET_REQUEST_CODE)
         if (viewModel.sections.isNotEmpty()) {
+            val intentGeo = Intent(this, NewTicketNumberActivity::class.java)
+                .putExtra(NewTicketNumberActivity.EXTRA_PLACE, place.Id)
+                .putExtra(NewTicketNumberActivity.EXTRA_SECTIONS, viewModel.sections.toTypedArray())
+                .putExtra(NewTicketNumberActivity.EXTRA_FROM_NOTIFICATION, true)
             LocationExtension.fromGxPosition(place.Position)?.let {
-                val pendingIntent = PendingIntent.getActivity(this, NEW_TICKET_REQUEST_CODE, intent, 0)
+                val pendingIntent = PendingIntent.getActivity(this, NEW_TICKET_REQUEST_CODE, intentGeo, FLAG_ONE_SHOT)
                 GeoRepository.R.add(place.Name, it, pendingIntent)
             }
         }
@@ -113,5 +119,11 @@ class NewTicketSuperActivity : MyBaseActivity() {
             setResult(NEW_TICKET_RESULT_CODE_HAS_NUMBERS)
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (NewTicketNumberActivity.fromNotificationHash != null)
+            finish()
     }
 }

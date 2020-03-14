@@ -11,6 +11,7 @@ import com.reinventiva.sticket.data.Repository
 import com.reinventiva.sticket.geo.GeoRepository
 import com.reinventiva.sticket.ui.base.MyBaseActivity
 import com.reinventiva.sticket.ui.mynumbers.MyNumbersActivity
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -76,6 +77,11 @@ class MainActivity: MyBaseActivity() {
             if (it.from.userId != it.to.userId)
                 registerDevice(it.to.userId)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        NewTicketNumberActivity.fromNotificationHash = null
     }
 
     private fun registerDevice(deviceToken: String?) {

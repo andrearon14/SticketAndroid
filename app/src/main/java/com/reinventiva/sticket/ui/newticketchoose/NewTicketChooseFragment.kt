@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.ui.newticketsection.NewTicketSectionActivity
-import com.reinventiva.sticket.ui.newticketsuper.NEW_TICKET_REQUEST_CODE
 import com.reinventiva.sticket.ui.newticketsuper.NewTicketSuperActivity
 import kotlinx.android.synthetic.main.new_ticket_choose_fragment.*
 

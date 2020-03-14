@@ -31,7 +31,6 @@
         <activity android:name=".ui.newticketsuper.NewTicketSuperActivity" />
         <activity android:name=".ui.newticketchoose.NewTicketChooseActivity" />
         <activity android:name=".ui.newticketsection.NewTicketSectionActivity" />
-        <activity android:name=".ui.newtickettimesuper.NewTicketTimeSuperActivity" />
         <activity android:name=".ui.newticketnumber.NewTicketNumberActivity" />
         <activity android:name=".ui.mynumbers.MyNumbersActivity" />
         <activity android:name=".ui.myinformation.MyInformationActivity" />

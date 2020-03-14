@@ -1,5 +1,6 @@
 package com.reinventiva.sticket.geo
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -42,6 +43,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.icono_ticket_nuevo)
             .setContentTitle("Ya puedes emitir tu ticket")
+            .setPriority(Notification.PRIORITY_HIGH)
             .setAutoCancel(true)
         if (intent != null)
             builder.setContentIntent(intent)
@@ -55,7 +57,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_HIGH)
             val notificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
@@ -64,7 +66,7 @@ class GeofenceTransitionsJobIntentService : JobIntentService() {
 
     companion object {
         private const val CHANNEL_ID = "ArrivoDestino"
-        private const val NOTIFICATION_ID = 345
+        private const val NOTIFICATION_ID = 346
         private const val JOB_ID = 573
         fun enqueueWork(context: Context, intent: Intent) {
             enqueueWork(context, GeofenceTransitionsJobIntentService::class.java, JOB_ID, intent)

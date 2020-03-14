@@ -11,9 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.model.MyNumbersViewModel
+import com.reinventiva.sticket.ui.newticketchoose.NewTicketChooseActivity
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
 import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity.Companion.EXTRA_PLACE
-import com.reinventiva.sticket.ui.newticketsuper.NewTicketSuperActivity
 import kotlinx.android.synthetic.main.my_numbers_fragment.*
 import org.json.JSONObject
 
@@ -47,7 +47,7 @@ class MyNumbersFragment : Fragment() {
 
         buttonAdd.setOnClickListener {
             val intent = if (placeId == 0) {
-                Intent(context, NewTicketSuperActivity::class.java)
+                Intent(context, NewTicketChooseActivity::class.java)
             } else {
                 Intent(context, NewTicketNumberActivity::class.java)
                     .putExtra(EXTRA_PLACE, placeId)

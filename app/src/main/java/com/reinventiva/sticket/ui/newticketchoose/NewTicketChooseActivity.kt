@@ -5,7 +5,9 @@ import android.os.Bundle
 import com.reinventiva.sticket.R
 import com.reinventiva.sticket.ui.base.MyBaseActivity
 import com.reinventiva.sticket.ui.newticketnumber.NEW_TICKET_RESULT_CODE_HAS_NUMBERS
-import com.reinventiva.sticket.ui.newticketsuper.NEW_TICKET_REQUEST_CODE
+import com.reinventiva.sticket.ui.newticketnumber.NewTicketNumberActivity
+
+internal const val NEW_TICKET_REQUEST_CODE = 112
 
 class NewTicketChooseActivity: MyBaseActivity() {
 
@@ -25,5 +27,11 @@ class NewTicketChooseActivity: MyBaseActivity() {
         if (requestCode == NEW_TICKET_REQUEST_CODE && resultCode == NEW_TICKET_RESULT_CODE_HAS_NUMBERS) {
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (NewTicketNumberActivity.fromNotificationHash != null)
+            finish()
     }
 }
