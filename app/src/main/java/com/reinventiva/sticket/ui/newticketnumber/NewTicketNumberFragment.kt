@@ -14,7 +14,7 @@ import com.reinventiva.sticket.model.PlaceNumbersViewModelFactory
 import kotlinx.android.synthetic.main.new_ticket_number_fragment.*
 import org.json.JSONObject
 
-class NewTicketNumberFragment(private val placeId: Int, private var sections: List<String>?): Fragment() {
+class NewTicketNumberFragment: Fragment() {
 
     private lateinit var viewModel: PlaceNumbersViewModel
 
@@ -27,10 +27,12 @@ class NewTicketNumberFragment(private val placeId: Int, private var sections: Li
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val placeId = arguments?.getInt(ARG_PLACE) ?: 0
         viewModel = ViewModelProvider(this, PlaceNumbersViewModelFactory(placeId)).get(PlaceNumbersViewModel::class.java)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        var sections = arguments?.getStringArray(ARG_SECTIONS)
         swipeRefresh.isRefreshing = true
         viewModel.list.observe(viewLifecycleOwner, Observer {
             recyclerView.adapter = NewTicketNumberRecyclerAdapter(context!!, it, sections) { button.isEnabled = it }
@@ -54,4 +56,18 @@ class NewTicketNumberFragment(private val placeId: Int, private var sections: Li
     }
 
     fun refreshValues(name: String, values: JSONObject) = viewModel.refreshOne(name, values)
+
+    companion object {
+        fun newFragment(placeId: Int, sections: Array<String>?): NewTicketNumberFragment {
+            val fragment = NewTicketNumberFragment()
+            fragment.arguments = Bundle().apply {
+                putInt(ARG_PLACE, placeId)
+                putStringArray(ARG_SECTIONS, sections)
+            }
+            return fragment
+        }
+
+        private const val ARG_PLACE = "Place"
+        private const val ARG_SECTIONS = "Sections"
+    }
 }

@@ -92,7 +92,7 @@ class NewTicketSuperActivity : MyBaseActivity() {
                     viewModel.updateLocation(location)
             }
 
-        view_pager.adapter = NewTicketSuperPagerAdapter(this, supportFragmentManager, viewModel)
+        view_pager.adapter = NewTicketSuperPagerAdapter(this, supportFragmentManager)
         tabs.setupWithViewPager(view_pager)
     }
 

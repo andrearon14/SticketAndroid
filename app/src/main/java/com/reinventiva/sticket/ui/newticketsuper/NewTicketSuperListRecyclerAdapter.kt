@@ -31,7 +31,10 @@ class NewTicketSuperListRecyclerAdapter(private val context: Context, private va
             holder.textViewName.text = data.Name
 
             var distanceText = if (data.GoogleDistance != null && data.GoogleTravelTime != null)
-                "${data.GoogleDistance}, ${Utils.durationToString(data.GoogleTravelTime!!)} en auto"
+                if (data.GoogleTravelTime!! < 5)
+                    "En el lugar"
+                else
+                    "${data.GoogleDistance}, ${Utils.durationToString(data.GoogleTravelTime!!)} en auto"
             else
                 "${data.Distance}m"
             if (data.Waiting > 0)

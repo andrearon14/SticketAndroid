@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.new_ticket_super_list_tab_fragment.swipeRe
 /**
  * A placeholder fragment containing a simple view.
  */
-class NewTicketSuperListTabFragment(private val viewModel: PlaceViewModel) : Fragment() {
+class NewTicketSuperListTabFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +28,7 @@ class NewTicketSuperListTabFragment(private val viewModel: PlaceViewModel) : Fra
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val viewModel = ViewModelProvider(activity!!).get(PlaceViewModel::class.java)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 

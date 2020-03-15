@@ -17,11 +17,11 @@ class NewTicketNumberActivity: MyBaseActivity() {
         supportActionBar?.title = "Ticket Nuevo"
         if (savedInstanceState == null) {
             val placeId = intent.getIntExtra(EXTRA_PLACE, 0)
-            val sections = intent.getStringArrayExtra(EXTRA_SECTIONS)?.toList()
+            val sections = intent.getStringArrayExtra(EXTRA_SECTIONS)
             if (intent.getBooleanExtra(EXTRA_FROM_NOTIFICATION, false))
                 fromNotificationHash = hashCode()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, NewTicketNumberFragment(placeId, sections))
+                .replace(R.id.container, NewTicketNumberFragment.newFragment(placeId, sections))
                 .commitNow()
         }
     }

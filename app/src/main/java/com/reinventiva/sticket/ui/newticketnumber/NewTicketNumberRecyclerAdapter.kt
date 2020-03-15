@@ -14,7 +14,7 @@ import com.reinventiva.sticket.model.NumberData
 class NewTicketNumberRecyclerAdapter(
     private val context: Context,
     private val list: List<NumberData>,
-    sections: List<String>?,
+    sections: Array<String>?,
     private val onHasSectionsChange: (hasSections: Boolean) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

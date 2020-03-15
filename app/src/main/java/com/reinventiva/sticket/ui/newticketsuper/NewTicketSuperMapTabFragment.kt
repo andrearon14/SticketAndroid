@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,7 +20,7 @@ import com.reinventiva.sticket.model.PlaceViewModel
 import com.reinventiva.sticket.geo.toLatLng
 import com.reinventiva.sticket.model.PlaceData
 
-class NewTicketSuperMapTabFragment(private val viewModel: PlaceViewModel) : Fragment(), OnMapReadyCallback {
+class NewTicketSuperMapTabFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private var lastClickMarkerId: Int? = null
@@ -33,6 +34,7 @@ class NewTicketSuperMapTabFragment(private val viewModel: PlaceViewModel) : Frag
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val viewModel = ViewModelProvider(activity!!).get(PlaceViewModel::class.java)
 
         val mapFragment = childFragmentManager.fragments[0]
         if (mapFragment is SupportMapFragment)

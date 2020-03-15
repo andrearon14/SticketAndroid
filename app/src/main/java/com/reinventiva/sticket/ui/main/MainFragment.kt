@@ -34,8 +34,6 @@ class MainFragment: Fragment() {
 
         viewModel.list.observe(viewLifecycleOwner, Observer {
             placeId = it.firstOrNull()?.PlaceId
-            imageMyNumbers.isEnabled = it.isNotEmpty()
-            buttonMyNumbers.isEnabled = it.isNotEmpty()
         })
 
         val newTicket = View.OnClickListener {

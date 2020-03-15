@@ -1,6 +1,5 @@
 package com.reinventiva.sticket.model
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.reinventiva.sticket.data.Repository
 import kotlinx.coroutines.launch
