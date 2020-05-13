@@ -60,7 +60,7 @@ class PlaceViewModel(val sections: List<String>) : ViewModel() {
                 dataList[index].GoogleDistance = element.distance.text
                 dataList[index].GoogleTravelTime = element.duration.value
             }
-            val sorted = dataList.sortedBy { it.GoogleTravelTime!! + it.Waiting }
+            val sorted = dataList.sortedBy { it.GoogleTravelTime!! + it.Waiting } // el ticket se saca al llegar
             return sorted // sin variable no funciona
         }
         return dataList

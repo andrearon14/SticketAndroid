@@ -51,7 +51,7 @@ class NewTicketSuperMapTabFragment : Fragment(), OnMapReadyCallback {
                     if (first)
                         first = false
                     else if (data.GoogleDistance != null && viewModel.sections.isNotEmpty())
-                        marker.alpha = .3f
+                        marker.alpha = .5f
                     builder.include(it)
                 }
             }

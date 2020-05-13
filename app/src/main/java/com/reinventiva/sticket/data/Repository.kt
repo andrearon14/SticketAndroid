@@ -12,6 +12,7 @@ import okhttp3.Request
 import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.net.SocketTimeoutException
 
 class Repository(context: Context) {
 
@@ -21,14 +22,21 @@ class Repository(context: Context) {
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val request: Request = chain.request()
-            val response: Response = chain.proceed(request)
-            if (response.code() != 200) {
-                Handler(context.mainLooper).post {
-                    Toast.makeText(context, response.message(), Toast.LENGTH_LONG).show()
+            try {
+                val response: Response = chain.proceed(request)
+                if (response.code() != 200) {
+                    Handler(context.mainLooper).post {
+                        Toast.makeText(context, response.message(), Toast.LENGTH_LONG).show()
+                    }
+                    response.newBuilder().code(200).build()
+                } else {
+                    response
                 }
-                response.newBuilder().code(200).build()
-            } else {
-                response
+            } catch (e: SocketTimeoutException) {
+                Handler(context.mainLooper).post {
+                    Toast.makeText(context, "Timeout", Toast.LENGTH_LONG).show()
+                }
+                Response.Builder().code(200).build()
             }
         }
         .build()
